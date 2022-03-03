@@ -1,0 +1,28 @@
+{
+  "name": "@enhance/store",
+  "version": "1.0.0",
+  "description": "Data store",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "tape-es ./test.mjs | tap-arc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-store.git"
+  },
+  "keywords": [],
+  "author": "@dam",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-store/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-store#readme",
+  "devDependencies": {
+    "tap-arc": "^0.1.2",
+    "tape-es": "^1.2.17"
+  }
+}
