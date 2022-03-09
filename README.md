@@ -50,4 +50,4 @@ store.one = 2
 // ...some time later
 store.unsubscribe(listener)
 ```
-> ⚠️ Most commonly you would use component lifecycle events to subscribe & unsubscribe in.
+> ⚠️ Most commonly you would subscribe & unsubscribe inside component lifecycle event handlers.
