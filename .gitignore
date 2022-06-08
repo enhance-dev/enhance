@@ -9,3 +9,4 @@ preferences.arc
 prefs.arc
 static.json
 dist/*
+package-lock.json

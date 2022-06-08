@@ -2,19 +2,13 @@
   "name": "@enhance/enhance-style-transform",
   "version": "0.0.1-alpha.0",
   "description": "Scope Web Component styles for SSR",
-  "main": "dist/style-transform.js",
-  "files": [
-    "src/style-transform.mjs"
-  ],
+  "main": "src/style-transform.js",
   "scripts": {
     "test:unit": "tape 'test/unit/**/*-test.mjs' --verbose | tap-arc ",
     "start": "cd test/mocks && sandbox",
     "playwright": "playwright test && exit 1",
     "test:browser": "run-p start playwright",
-    "test": "npm run test:unit ",
-    "build": "esbuild src/style-transform.mjs --outfile='dist/style-transform.bundled.js' --bundle --platform=node --target=node14",
-    "publish:npm": "npm publish --access-public",
-    "publish": "npm run build && npm run publish:npm"
+    "test": "npm run test:unit "
   },
   "repository": {
     "type": "git",
@@ -26,13 +20,14 @@
     "url": "https://github.com/enhance-dev/enhance-style-transform/issues"
   },
   "homepage": "https://github.com/enhance-dev/enhance-style-transform#readme",
+  "dependencies": {
+    "css": "^3.0.0"
+  },
   "devDependencies": {
     "@architect/functions": "^5.0.1",
     "@architect/sandbox": "^5.2.5",
     "@enhance/ssr": "^2.3.2",
     "@playwright/test": "^1.19.1",
-    "css": "^3.0.0",
-    "esbuild": "^0.14.42",
     "nanoid": "^3.3.1",
     "npm-run-all": "^4.1.5",
     "tap-arc": "^0.3.4",
