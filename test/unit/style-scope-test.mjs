@@ -43,7 +43,7 @@ test('default component scoped in ssr context', (t) => {
   const expected = `my-tag div {
   background: blue;
 }` 
-  t.equal(expected,result,'it works')
+  t.equal(expected,result,'basic SSR context')
 })
 
 test('default component scoped in template context', (t) => {
@@ -56,9 +56,7 @@ test('default component scoped in template context', (t) => {
     raw: block
   })
   const expected = `div { background:blue; }` 
-  console.log({result})
-  console.log({expected})
-  t.equal(expected,result,'it works')
+  t.equal(expected,result,'template context')
 })
 
 test('template context with shadow selectors should not change', (t) => {
@@ -79,7 +77,7 @@ test('template context with shadow selectors should not change', (t) => {
     raw: block
   })
   const expected = block
-  t.equal(expected,result,'it works')
+  t.equal(expected,result,'shadow CSS same in template')
 })
 
 test('ssr context with special selectors', (t) => {
@@ -99,7 +97,7 @@ test('ssr context with special selectors', (t) => {
     context: 'markup',
     raw: block
   })
-  const expected = `my-tag  {
+  const expected = `my-tag {
   background: blue;
 }
 
@@ -118,7 +116,107 @@ my-tag .foo {
 my-tag another-tag [part*="thing"][part*="another-tag"] {
   display: block;
 }` 
-  t.equal(expected,result,'it works')
+  t.equal(expected,result,'shadow CSS transformed for SSR')
+})
+
+test(':host pseudo element', (t) => {
+  t.plan(1)
+
+  const block = `:host div { background: blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `my-tag div {
+  background: blue;
+}` 
+  t.equal(expected,result,'basic :host')
+})
+
+test(':host() function form', (t) => {
+  t.plan(1)
+
+  const block = `:host(.something) div { background:blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `my-tag.something div {
+  background: blue;
+}` 
+  t.equal(expected,result,':host() works')
+})
+
+
+test(':host-context() function form', (t) => {
+  t.plan(1)
+
+  const block = `:host-context(.something) div { background:blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `.something my-tag div {
+  background: blue;
+}` 
+  t.equal(expected,result,':host-context()')
+})
+
+
+// Selector Lists have inconsistent browser support and it is unclear if the spec for :host :host-context and ::slotted support Selector Lists. The tests below are skipped for now.
+
+// Not supported yet
+test.skip(':host() with selector list', (t) => {
+  t.plan(1)
+
+  const block = `:host(.something, [some=thing]) div { background:blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `my-tag.something div,
+  my-tag[some=thing] div {
+    background:blue; 
+}` 
+  t.equal(expected,result,':host() with list')
+})
+
+//Not supported Yet
+test.skip(':host-context() with selector list', (t) => {
+  t.plan(1)
+
+  const block = `:host-context(.something, [some=thing]) div { background:blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `.something my-tag div, 
+  [some=thing] my-tag div {
+    background: blue;
+  }` 
+  t.equal(expected,result,':host-context() with list')
+})
+
+//Not supported yet
+test.skip('::slotted() with selector list', (t) => {
+  t.plan(1)
+
+  const block = `::slotted(.something, [some=thing]) div { background:blue; }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `my-tag .something div, 
+  [some=thing] my-tag div {
+    background: blue;
+  }` 
+  t.equal(expected,result,'::slotted() with list')
 })
 
 
