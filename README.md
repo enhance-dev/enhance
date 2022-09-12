@@ -18,7 +18,7 @@ This approach doesn't completely avoid deep selection of nested elements. It mak
   
 
 ## Basic Usage
-Below is an example a style transform when deploying to [arc.codes](arc.codes). 
+Below is an example a style transform when deploying to [https://arc.codes](arc.codes). 
 
 ### Input
 ```JavaScript
