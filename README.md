@@ -7,10 +7,10 @@ You've found the main repo for the [Enhance](https://enhance.dev) HTML framework
 ## Getting started
 Best way to use Enhance is to read through the docs at [enhance.dev](https://enhance.dev/docs/)
 
-### Quick start ( you should probably still read the docs )
-[You can create an Enhance starter app with the `npm` `create` command →](https://github.com/enhance-dev/create/)
-
+### Quick start
 `npm create "@enhance" ./myproject -y`
+
+[(You should probably still read the docs)](https://enhance.dev/docs/)
 
 
 #### ⭐️ Star this repo
