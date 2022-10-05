@@ -1,0 +1,27 @@
+{
+  "name": "@enhance/element",
+  "version": "1.0.0",
+  "description": "Enhance element base class",
+  "main": "index.mjs",
+  "type": "module",
+  "engine": {
+    "node": ">=14.0"
+  },
+  "scripts": {
+    "test": "npx sandbox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-element.git"
+  },
+  "keywords": [],
+  "author": "@dam",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-element/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-element#readme",
+  "devDependencies": {
+    "@architect/sandbox": "^5.3.4"
+  }
+}

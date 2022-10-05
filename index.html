@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+  <my-button id="moveme" label="Click me"></my-button>
+  <div id="root"></div>
+  <button id="move">Disconnect</button>
+  <script src="/_static/index.mjs" type="module"></script>
+  <script type="module">
+    import enhance from '/_static/index.mjs'
+
+    enhance('my-button', {
+      attrs: [ 'label' ],
+      init(el) {
+        el.addEventListener('click', el.click)
+      },
+      render({ html, state }) {
+        const { attrs={} } = state
+        const { label='Nope' } = attrs
+        return html`
+        <pre>
+          ${JSON.stringify(state)}
+        </pre>
+        <button>${label}</button>
+        `
+      },
+      click(e) {
+        console.log('CLICK')
+      },
+      adopted() {
+        console.log('ADOPTED')
+      },
+      connected() {
+        console.log('CONNECTED')
+      },
+      disconnected() {
+        console.log('DISCONNECTED')
+      }
+    })
+
+    const m = document.getElementById('moveme')
+    const move = document.getElementById('move')
+    const root = document.getElementById('root')
+
+    move.onclick =  moveIt
+    function moveIt() {
+     root.appendChild(m)
+    }
+  </script>
+</body>
+</html>
