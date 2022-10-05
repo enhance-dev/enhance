@@ -41,17 +41,22 @@ enhance('my-button', {
 ```
 
 **attrs**:Array
+
 The `attrs` array is where you declare what attributes you want your component to update
 
 **init**:Function
+
 The `init` function will be called once and is where you should run your setup code like adding event listeners, grabbing DOM references etc.
 
 **render**:Function
+
 The `render` function is a pure function that returns an HTML string
 
-**connected**
+**connected**:Function
+
 The `connected` function is called when your component is added to the page
 
-**disconnected**
+**disconnected**:Function
+
 The `disconnected` function is called when your component is removed to the page
 
