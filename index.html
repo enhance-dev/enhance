@@ -7,14 +7,21 @@
 </head>
 <body>
   <my-button id="moveme" label="Click me"></my-button>
+
   <div id="root"></div>
   <button id="move">Disconnect</button>
   <script src="/_static/index.mjs" type="module"></script>
   <script type="module">
     import enhance from '/_static/index.mjs'
+    const api = {
+      todos() {
+        console.log('TODOS')
+      }
+    }
 
     enhance('my-button', {
       attrs: [ 'label' ],
+      api,
       init(el) {
         el.addEventListener('click', el.click)
       },
@@ -30,6 +37,7 @@
       },
       click(e) {
         console.log('CLICK')
+        this.api.todos()
       },
       adopted() {
         console.log('ADOPTED')
