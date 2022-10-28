@@ -48,7 +48,7 @@ export default function enhance(tagName, opts) {
 
       this.shadowMode
         ? this.attachShadow({ mode: this.shadowMode || 'open' })
-            .appendChild(template.content.cloneNode(true))
+            .appendChild(this.template.content.cloneNode(true))
         : this.replaceChildren(
             this.template.content.cloneNode(true))
 
