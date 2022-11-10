@@ -53,7 +53,7 @@ export default function enhance(tagName, opts) {
             this.template.content.cloneNode(true))
 
       this.store = {}
-      this.init(this)
+      this.init && this.init(this)
     }
 
     static get observedAttributes() {
