@@ -1,6 +1,6 @@
 {
   "name": "@enhance/element",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Enhance element base class",
   "main": "index.mjs",
   "type": "module",
