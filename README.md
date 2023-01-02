@@ -1,5 +1,5 @@
 # Enhance element
-An element base class to cut down on web component boilerplate when progressively enhaning your HTML.
+An element base class to cut down on web component boilerplate when progressively enhancing your HTML.
 
 ## Install
 `npm i @enhance/element`
