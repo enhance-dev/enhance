@@ -6,22 +6,16 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
 </head>
 <body>
+
   <my-button id="moveme" label="Click me"></my-button>
 
-  <div id="root"></div>
-  <button id="move">Disconnect</button>
-  <script src="/_static/index.mjs" type="module"></script>
   <script type="module">
-    import enhance from '/_static/index.mjs'
-    const api = {
-      todos() {
-        console.log('TODOS')
-      }
-    }
+    import { runTests } from '@web/test-runner-mocha';
+    import { assert } from '@esm-bundle/chai';
+    import enhance from '../index.mjs'
 
     enhance('my-button', {
       attrs: [ 'label' ],
-      api,
       init(el) {
         el.addEventListener('click', el.click)
       },
@@ -37,7 +31,6 @@
       },
       click(e) {
         console.log('CLICK')
-        this.api.todos()
       },
       adopted() {
         console.log('ADOPTED')
@@ -50,14 +43,14 @@
       }
     })
 
-    const m = document.getElementById('moveme')
-    const move = document.getElementById('move')
-    const root = document.getElementById('root')
+    runTests(()=> {
+      it('should render label correctly', ()=> {
+        const button = document.querySelector('my-button')
+        console.log('BUTTON', button)
+        assert.isOk(button, 'button exists')
+      })
+    })
 
-    move.onclick =  moveIt
-    function moveIt() {
-     root.appendChild(m)
-    }
   </script>
 </body>
 </html>
