@@ -44,11 +44,20 @@
     })
 
     runTests(()=> {
-      it('should render label correctly', ()=> {
-        const button = document.querySelector('my-button')
-        console.log('BUTTON', button)
-        assert.isOk(button, 'button exists')
+
+      describe('Enhance element', ()=> {
+
+        it('should update internal label correctly', ()=> {
+          const myButton = document.querySelector('my-button')
+          myButton.setAttribute('label', 'Yolo')
+          const button = myButton.querySelector('button')
+          assert.equal(button.textContent, 'Yolo')
+          myButton.setAttribute('label', 'working')
+          assert.equal(button.textContent, 'working')
+        })
+
       })
+
     })
 
   </script>
