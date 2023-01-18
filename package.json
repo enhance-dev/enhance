@@ -8,8 +8,8 @@
     "node": ">=14.0"
   },
   "scripts": {
-    "test": "web-test-runner \"test/**/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
-    "test:watch": "web-test-runner \"test/**/*-test.html\" --node-resolve --watch --playwright"
+    "test": "web-test-runner \"test/**/*-test.html\" --node-resolve --playwright",
+    "test:watch": "web-test-runner \"test/**/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
   },
   "repository": {
     "type": "git",
