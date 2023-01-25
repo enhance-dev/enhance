@@ -7,6 +7,9 @@
 </head>
 <body>
 
+  <my-init></my-init>
+  <my-connect></my-connect>
+  <my-click></my-click>
   <my-button id="moveme" label="Click me"></my-button>
 
   <script type="module">
@@ -14,40 +17,54 @@
     import { assert } from '@esm-bundle/chai';
     import enhance from '../index.mjs'
 
-    enhance('my-button', {
-      attrs: [ 'label' ],
-      init(el) {
-        el.addEventListener('click', el.click)
-      },
-      render({ html, state }) {
-        const { attrs={} } = state
-        const { label='Nope' } = attrs
-        return html`
-        <pre>
-          ${JSON.stringify(state)}
-        </pre>
-        <button>${label}</button>
-        `
-      },
-      click(e) {
-        console.log('CLICK')
-      },
-      adopted() {
-        console.log('ADOPTED')
-      },
-      connected() {
-        console.log('CONNECTED')
-      },
-      disconnected() {
-        console.log('DISCONNECTED')
-      }
-    })
-
     runTests(()=> {
 
       describe('Enhance element', ()=> {
 
-        it('should update internal label correctly', ()=> {
+        it('should init', ()=> {
+
+          enhance('my-init', {
+            render() {
+              return `<p>Init</p>`
+            },
+            init
+          })
+
+          function init() {
+            assert.isOk(true)
+          }
+        })
+
+        it('should connect', ()=> {
+          enhance('my-connect', {
+            render() {
+              return `<p>Connect</p>`
+            },
+            connected
+          })
+
+          function connected() {
+            assert.isOk(true)
+          }
+          
+        }) 
+
+        it('should update button text when label changed', ()=> {
+
+          enhance('my-button', {
+            attrs: [ 'label' ],
+            render({ html, state }) {
+              const { attrs={} } = state
+              const { label='Nope' } = attrs
+              return html`
+              <pre>
+                ${JSON.stringify(state)}
+              </pre>
+              <button>${label}</button>
+              `
+            }
+          })
+
           const myButton = document.querySelector('my-button')
           myButton.setAttribute('label', 'Yolo')
           const button = myButton.querySelector('button')
