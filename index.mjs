@@ -29,9 +29,6 @@ export default function enhance(tagName, opts) {
         })
       )
 
-      if (shadow) {
-        this.shadowMode = shadow
-      }
       const templateName = `${this.tagName.toLowerCase()}-template`
       const template = document.getElementById(templateName)
       if (template) {
@@ -46,13 +43,19 @@ export default function enhance(tagName, opts) {
         this.template.setAttribute('id', templateName)
       }
 
-      this.shadowMode
-        ? this.attachShadow({ mode: this.shadowMode || 'open' })
-            .appendChild(this.template.content.cloneNode(true))
-        : this.replaceChildren(
-            this.template.content.cloneNode(true))
+      if (shadow === 'open' || shadow === 'closed') {
+        this.attachShadow({ mode: shadow })
+          .appendChild(this.template.content.cloneNode(true))
+      }
+      else {
+        this.replaceChildren(
+          this.template.content.cloneNode(true))
+      }
 
-      this.store = {}
+      if (this.api) {
+        this.api.subscribe(this.#process(), this.keys)
+      }
+
       this.init && this.init(this)
     }
 
