@@ -3,7 +3,7 @@ import morph from './morph.mjs'
 export default function enhance(tagName, opts) {
   const shadow = opts.shadow
   const _observedAttributes = opts.observedAttributes ||
-        opts.attrs
+    opts.attrs
   delete opts.observedAttributes
   delete opts.attrs
   const _adoptedCallback = opts.adoptedCallback ||
@@ -27,7 +27,7 @@ export default function enhance(tagName, opts) {
           value: opts[k],
           writable: false
         })
-      )
+        )
 
       const templateName = `${this.tagName.toLowerCase()}-template`
       const template = document.getElementById(templateName)
@@ -37,8 +37,8 @@ export default function enhance(tagName, opts) {
       else {
         this.template = document.createElement('template')
         this.template.innerHTML = this.render({
-          html:this.html,
-          state:{ attrs:{}, store:{} }
+          html: this.html,
+          state: { attrs: {}, store: {} }
         })
         this.template.setAttribute('id', templateName)
       }
@@ -64,7 +64,7 @@ export default function enhance(tagName, opts) {
     }
 
     adoptedCallback() {
-      if(typeof _adoptedCallback === 'function') {
+      if (typeof _adoptedCallback === 'function') {
         _adoptedCallback.call(this)
       }
     }
@@ -76,7 +76,7 @@ export default function enhance(tagName, opts) {
     }
 
     disconnectedCallback() {
-      if(typeof _disconnectedCallback === 'function') {
+      if (typeof _disconnectedCallback === 'function') {
         _disconnectedCallback.call(this)
       }
     }
@@ -100,7 +100,7 @@ export default function enhance(tagName, opts) {
       const attrs = this.attributes.length
         ? this.attrsToObject(this.attributes)
         : {}
-      const store = this.store
+      const store = this.api.store
 
       return {
         attrs,
@@ -108,7 +108,7 @@ export default function enhance(tagName, opts) {
       }
     }
 
-    attrsToObject(attrs=[]) {
+    attrsToObject(attrs = []) {
       const attrsObj = {}
       for (let d = attrs.length - 1; d >= 0; d--) {
         let attr = attrs[d]
@@ -119,8 +119,8 @@ export default function enhance(tagName, opts) {
 
     #process() {
       const tmp = this.render({
-        html:this.html,
-        state:this.#state
+        html: this.html,
+        state: this.#state
       })
       const updated = document.createElement('div')
       updated.innerHTML = tmp.trim()

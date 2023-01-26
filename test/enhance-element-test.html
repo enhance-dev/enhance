@@ -11,11 +11,19 @@
   <my-connect></my-connect>
   <my-click></my-click>
   <my-button id="moveme" label="Click me"></my-button>
+  <my-api-button></my-api-button>
+  <my-list></my-list>
+
 
   <script type="module">
     import { runTests } from '@web/test-runner-mocha';
     import { assert } from '@esm-bundle/chai';
     import enhance from '../index.mjs'
+    //import Store from '@enhance/store'
+    import API from './api.mjs'
+    const api = API()
+
+    const api = {}
 
     runTests(()=> {
 
@@ -73,8 +81,46 @@
           assert.equal(button.textContent, 'working')
         })
 
-      })
+        it('should update from api', ()=> {
+          enhance('my-api-button',  {
+            api,
+            init(el) {
+              el.addEventListener('click', el.click)
+              el.click.bind(el)
+            },
+            click() {
+              api.list()
+            }
+          })
 
+          /*
+          enhance('my-list', {
+            api,
+            keys: [ 'things' ]
+            render({ html, state }) {
+              const { store } = state
+              const { things=[] } = store
+              const items = things
+                .map(t=> `<li>${t}</li>`)
+                .join('\n')
+              return html`
+              <ul>
+                ${items}
+              </ul>
+              `
+            }
+          })
+
+
+
+          const myAPIButton = document.querySelector('my-api-button')
+          myAPIButton.click()
+          const myList = document.querySelector('my-list')
+          const items = myList.querySelectorAll('li')
+          assert.equal(items.length, 2)
+          */ 
+        })
+      })
     })
 
   </script>
