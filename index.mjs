@@ -62,9 +62,8 @@ function initialize(initialState) {
  * @param {array} props - list props to listen to for changes
  * @return {number} returns current number of listeners
  */
-function subscribe(fn, props) {
-  fn.observedProperties = props || []
-  return listeners.push(fn)
+function subscribe(fn, props=[]) {
+  return listeners.push({ fn, props })
 }
 
 /**
@@ -73,12 +72,13 @@ function subscribe(fn, props) {
  *
  */
 function unsubscribe(fn) {
-  return listeners.splice(listeners.indexOf(fn), 1)
+  return listeners.splice(listeners.findIndex(l => l.fn === fn), 1)
 }
 
 function notify() {
-  listeners.forEach(fn => {
-    const props = fn.observedProperties
+  listeners.forEach(l => {
+    const fn = l.fn
+    const props = l.props
     const payload = props.length
       ? dirtyProps
         .filter(key => props.includes(key))

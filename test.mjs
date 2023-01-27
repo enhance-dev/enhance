@@ -53,7 +53,7 @@ test('should subscibe to state updates', t => {
   store.one = 2
 })
 
-test('should subscibe to specific key state updates', t => {
+test('should subscribe to specific key state updates', t => {
   const store = Store({
     one: 1,
     two: 2
