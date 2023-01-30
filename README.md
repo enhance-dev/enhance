@@ -31,7 +31,8 @@ const store = Store({
 const listener = data => {
   console.log(data.two)
 }
-store.subscribe(listener)
+
+store.subscribe(listener, ['two'])
 store.two = 3
 ```
 
@@ -45,7 +46,7 @@ const store = Store({
 const listener = data => {
   console.log(data.one)
 }
-store.subscribe(listener)
+store.subscribe(listener, ['one'])
 store.one = 2
 // ...some time later
 store.unsubscribe(listener)
