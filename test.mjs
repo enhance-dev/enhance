@@ -82,3 +82,28 @@ test('should unsubscribe from state updates', t => {
   t.ok(true)
   t.end()
 })
+
+
+test('should be able to subscribe private function for updates', t => {
+  class MyPrivates {
+    constructor() {
+      this.store = Store({
+        one: 1,
+        two: 2
+      })
+      this.store.subscribe(this.#update, ['two'])
+      this.store.one = 2
+      this.store.two = 3
+      // Wait a click
+      setTimeout(() => this.store.unsubscribe(this.#update), 1)
+    }
+
+    #update(data) {
+      t.ok(!data.one, 'one is not sent')
+      t.equal(data.two, 3, 'state is updated')
+      t.end()
+    }
+  }
+
+  new MyPrivates()
+})
