@@ -8,6 +8,22 @@ defaults:
     shell: bash
 
 jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: https://registry.npmjs.org/
+      - run: npm install
+      - run: npm test
+
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
   # Publish to package registries
@@ -18,14 +34,6 @@ jobs:
 
     # Go
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
 
       # Publish to npm
       - name: Publish @RC to npm
