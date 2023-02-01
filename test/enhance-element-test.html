@@ -11,11 +11,27 @@
   <my-connect></my-connect>
   <my-click></my-click>
   <my-button id="moveme" label="Click me"></my-button>
+  <my-api-button></my-api-button>
+  <my-list></my-list>
+
 
   <script type="module">
     import { runTests } from '@web/test-runner-mocha';
     import { assert } from '@esm-bundle/chai';
     import enhance from '../index.mjs'
+    import Store from '@enhance/store'
+    const store = Store()
+    function API() {
+      return {
+        list: () => {
+          store.things = ['one', 'two', 'three']
+        },
+        subscribe: store.subscribe,
+        unsubscribe: store.unsubscribe,
+        store
+      }
+    }
+    const api = API()
 
     runTests(()=> {
 
@@ -46,12 +62,12 @@
           function connected() {
             assert.isOk(true)
           }
-          
-        }) 
+
+        })
 
         it('should update button text when label changed', ()=> {
 
-          enhance('my-button', {
+          enhance('my-button',{
             attrs: [ 'label' ],
             render({ html, state }) {
               const { attrs={} } = state
@@ -73,8 +89,37 @@
           assert.equal(button.textContent, 'working')
         })
 
-      })
+        it('should update from api', ()=> {
 
+          enhance('my-list', {
+            api,
+            keys: [ 'things' ],
+            init() {
+              this.check = this.check.bind(this)
+              this.api.subscribe(this.check, [ 'things'])
+              this.api.list()
+            },
+            check(stuff) {
+              const items = this.querySelectorAll('li')
+              assert.equal(items.length, 3)
+            },
+            render({ html, state }) {
+              const { store } = state
+              const { things=[] } = store
+              const items = things
+                .map((t, i)=> `<li id=${i++}>${t}</li>`)
+                .join('\n')
+              return html`
+              <ul>
+                ${items}
+              </ul>
+              `
+            }
+          })
+
+          const myList = document.querySelector('my-list')
+        })
+      })
     })
 
   </script>

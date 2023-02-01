@@ -3,7 +3,7 @@ import morph from './morph.mjs'
 export default function enhance(tagName, opts) {
   const shadow = opts.shadow
   const _observedAttributes = opts.observedAttributes ||
-        opts.attrs
+    opts.attrs
   delete opts.observedAttributes
   delete opts.attrs
   const _adoptedCallback = opts.adoptedCallback ||
@@ -23,15 +23,16 @@ export default function enhance(tagName, opts) {
     constructor() {
       super()
       Object.keys(opts)
-        .map(k => Object.defineProperty(this, k, {
-          value: opts[k],
-          writable: false
-        })
-      )
+        .map(k => Object.defineProperty(
+          this,
+          k,
+          {
+            value: opts[k],
+            writable: true
+          })
+        )
 
-      if (shadow) {
-        this.shadowMode = shadow
-      }
+      this.process = this.process.bind(this)
       const templateName = `${this.tagName.toLowerCase()}-template`
       const template = document.getElementById(templateName)
       if (template) {
@@ -40,19 +41,26 @@ export default function enhance(tagName, opts) {
       else {
         this.template = document.createElement('template')
         this.template.innerHTML = this.render({
-          html:this.html,
-          state:{ attrs:{}, store:{} }
+          html: this.html,
+          state: { attrs: {}, store: {} }
         })
         this.template.setAttribute('id', templateName)
       }
 
-      this.shadowMode
-        ? this.attachShadow({ mode: this.shadowMode || 'open' })
-            .appendChild(this.template.content.cloneNode(true))
-        : this.replaceChildren(
-            this.template.content.cloneNode(true))
+      if (shadow === 'open' || shadow === 'closed') {
+        this.attachShadow({ mode: shadow })
+          .appendChild(this.template.content.cloneNode(true))
+      }
+      else {
+        this.replaceChildren(
+          this.template.content.cloneNode(true))
+      }
 
-      this.store = {}
+      if (this.api) {
+        const keys = this.keys || []
+        this.api.subscribe(this.process, keys)
+      }
+
       this.init && this.init(this)
     }
 
@@ -61,7 +69,7 @@ export default function enhance(tagName, opts) {
     }
 
     adoptedCallback() {
-      if(typeof _adoptedCallback === 'function') {
+      if (typeof _adoptedCallback === 'function') {
         _adoptedCallback.call(this)
       }
     }
@@ -73,14 +81,14 @@ export default function enhance(tagName, opts) {
     }
 
     disconnectedCallback() {
-      if(typeof _disconnectedCallback === 'function') {
+      if (typeof _disconnectedCallback === 'function') {
         _disconnectedCallback.call(this)
       }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
       if (oldValue !== newValue) {
-        this.#process()
+        this.process()
       }
     }
 
@@ -93,11 +101,11 @@ export default function enhance(tagName, opts) {
       return collect.join('')
     }
 
-    get #state() {
+    get state() {
       const attrs = this.attributes.length
         ? this.attrsToObject(this.attributes)
         : {}
-      const store = this.store
+      const store = this.api?.store || {}
 
       return {
         attrs,
@@ -105,7 +113,7 @@ export default function enhance(tagName, opts) {
       }
     }
 
-    attrsToObject(attrs=[]) {
+    attrsToObject(attrs = []) {
       const attrsObj = {}
       for (let d = attrs.length - 1; d >= 0; d--) {
         let attr = attrs[d]
@@ -114,10 +122,10 @@ export default function enhance(tagName, opts) {
       return attrsObj
     }
 
-    #process() {
+    process() {
       const tmp = this.render({
-        html:this.html,
-        state:this.#state
+        html: this.html,
+        state: this.state
       })
       const updated = document.createElement('div')
       updated.innerHTML = tmp.trim()

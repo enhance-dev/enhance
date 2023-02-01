@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/enhance-dev/enhance-element#readme",
   "devDependencies": {
+    "@enhance/store": "^1.0.1",
     "@esm-bundle/chai": "^4.3.4-fix.0",
     "@web/test-runner": "^0.15.0",
     "@web/test-runner-mocha": "^0.7.5",
