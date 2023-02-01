@@ -12,7 +12,7 @@ HTML first base element class to help cut down on web component boilerplate.
 
 ```javascript
 
-enhance('my-button', {
+enhance('my-list', {
   api,
   attrs: [ 'heading' ],
   keys: [ 'todos' ],
@@ -79,7 +79,6 @@ The `disconnected` function is called when your component is removed to the page
 
 **shadow**:Enum
 
-The `shadow` property can be set to either `open` or `closed` and effects how the components shadow root "*encapsulation"
+The `shadow` property can be set to either `open` or `closed` and effects how the components shadow root is "encapsulated".
 
-*Surprise! shadow root is not actually completely encapsulated. There are come CSS properties that can penetrate and the shadow DOM is still accesible with JavaScript.
 
