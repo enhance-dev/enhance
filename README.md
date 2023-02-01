@@ -13,7 +13,9 @@ An element base class to cut down on web component boilerplate when progressivel
 ```javascript
 
 enhance('my-button', {
+  api,
   attrs: [ 'label' ],
+  keys: [ 'one', 'two', 'three' ],
   init(el) {
     el.addEventListener('click', el.click)
   },
@@ -39,6 +41,15 @@ enhance('my-button', {
 })
 
 ```
+**api**:Object
+
+The `api` object is used in the Enhance state management flow.
+`api` object must expose a subscribe and unsubscribe methods that accept a listener function to be passed a state object when an update occurs.
+
+**keys**:Array
+
+The `keys` array contains strings corresponding to the keys on a state object.
+Your Enhance Element will only update when a specified key updates in the state object.
 
 **attrs**:Array
 
