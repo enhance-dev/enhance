@@ -7,30 +7,36 @@ An element base class to cut down on web component boilerplate when progressivel
 ## Usage
 
 ```html
-<my-button label="Click me"></my-button>
+<my-list heading="Todos"></my-list>
 ```
 
 ```javascript
 
 enhance('my-button', {
   api,
-  attrs: [ 'label' ],
-  keys: [ 'one', 'two', 'three' ],
-  init(el) {
-    el.addEventListener('click', el.click)
+  attrs: [ 'heading' ],
+  keys: [ 'todos' ],
+  init(element) {
+    console.log('My List: ', element)
   },
   render({ html, state }) {
-    const { attrs={} } = state
-    const { label='Nope' } = attrs
+    const { attrs={}, store={} } = state
+    const { heading='' } = attrs
+    const { todos=[{ title: 'You have not todos yet.' }] } = store
+    const todoItems = todos
+      .map(t => `<li>${t.title || ''}</li>`)
+      .join('\n')
+
     return html`
+    <h1>${heading}</h1>
+    <ul>
+      ${todoItems}
+    </ul>
+    <!-- debug -->
     <pre>
       ${JSON.stringify(state)}
     </pre>
-    <button>${label}</button>
     `
-  },
-  click(e) {
-    console.log('CLICK')
   },
   connected() {
     console.log('CONNECTED')

@@ -81,6 +81,10 @@ export default function enhance(tagName, opts) {
     }
 
     disconnectedCallback() {
+      if (this.api) {
+        this.api.unsubscribe(this.process)
+      }
+
       if (typeof _disconnectedCallback === 'function') {
         _disconnectedCallback.call(this)
       }
