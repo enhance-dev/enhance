@@ -71,3 +71,9 @@ The `connected` function is called when your component is added to the page
 
 The `disconnected` function is called when your component is removed to the page
 
+**shadow**:Enum
+
+The `shadow` property can be set to either `open` or `closed` and effects how the components shadow root "*encapsulation"
+
+*Surprise! shadow root is not actually completely encapsulated. There are come CSS properties that can penetrate and the shadow DOM is still accesible with JavaScript.
+
