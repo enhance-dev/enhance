@@ -19,11 +19,19 @@
     import { runTests } from '@web/test-runner-mocha';
     import { assert } from '@esm-bundle/chai';
     import enhance from '../index.mjs'
-    //import Store from '@enhance/store'
-    import API from './api.mjs'
+    import Store from '@enhance/store'
+    const store = Store()
+    function API() {
+      return {
+        list: () => {
+          store.things = ['one', 'two', 'three']
+        },
+        subscribe: store.subscribe,
+        unsubscribe: store.unsubscribe,
+        store
+      }
+    }
     const api = API()
-
-    const api = {}
 
     runTests(()=> {
 
@@ -82,26 +90,24 @@
         })
 
         it('should update from api', ()=> {
-          enhance('my-api-button',  {
-            api,
-            init(el) {
-              el.addEventListener('click', el.click)
-              el.click.bind(el)
-            },
-            click() {
-              api.list()
-            }
-          })
 
-          /*
           enhance('my-list', {
             api,
-            keys: [ 'things' ]
+            keys: [ 'things' ],
+            init() {
+              this.check = this.check.bind(this)
+              this.api.subscribe(this.check, [ 'things'])
+              this.api.list()
+            },
+            check(stuff) {
+              const items = this.querySelectorAll('li')
+              assert.equal(items.length, 3)
+            },
             render({ html, state }) {
               const { store } = state
               const { things=[] } = store
               const items = things
-                .map(t=> `<li>${t}</li>`)
+                .map((t, i)=> `<li id=${i++}>${t}</li>`)
                 .join('\n')
               return html`
               <ul>
@@ -111,14 +117,7 @@
             }
           })
 
-
-
-          const myAPIButton = document.querySelector('my-api-button')
-          myAPIButton.click()
           const myList = document.querySelector('my-list')
-          const items = myList.querySelectorAll('li')
-          assert.equal(items.length, 2)
-          */ 
         })
       })
     })

@@ -23,12 +23,16 @@ export default function enhance(tagName, opts) {
     constructor() {
       super()
       Object.keys(opts)
-        .map(k => Object.defineProperty(this, k, {
-          value: opts[k],
-          writable: false
-        })
+        .map(k => Object.defineProperty(
+          this,
+          k,
+          {
+            value: opts[k],
+            writable: true
+          })
         )
 
+      this.process = this.process.bind(this)
       const templateName = `${this.tagName.toLowerCase()}-template`
       const template = document.getElementById(templateName)
       if (template) {
@@ -53,7 +57,8 @@ export default function enhance(tagName, opts) {
       }
 
       if (this.api) {
-        this.api.subscribe(this.#process(), this.keys)
+        const keys = this.keys || []
+        this.api.subscribe(this.process, keys)
       }
 
       this.init && this.init(this)
@@ -83,7 +88,7 @@ export default function enhance(tagName, opts) {
 
     attributeChangedCallback(name, oldValue, newValue) {
       if (oldValue !== newValue) {
-        this.#process()
+        this.process()
       }
     }
 
@@ -96,11 +101,11 @@ export default function enhance(tagName, opts) {
       return collect.join('')
     }
 
-    get #state() {
+    get state() {
       const attrs = this.attributes.length
         ? this.attrsToObject(this.attributes)
         : {}
-      const store = this.api.store
+      const store = this.api?.store || {}
 
       return {
         attrs,
@@ -117,10 +122,10 @@ export default function enhance(tagName, opts) {
       return attrsObj
     }
 
-    #process() {
+    process() {
       const tmp = this.render({
         html: this.html,
-        state: this.#state
+        state: this.state
       })
       const updated = document.createElement('div')
       updated.innerHTML = tmp.trim()
