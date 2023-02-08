@@ -33,6 +33,12 @@ export default function enhance(tagName, opts) {
         )
 
       this.process = this.process.bind(this)
+
+      if (this.api) {
+        const keys = this.keys || []
+        this.api.subscribe(this.process, keys)
+      }
+
       const templateName = `${this.tagName.toLowerCase()}-template`
       const template = document.getElementById(templateName)
       if (template) {
@@ -42,7 +48,7 @@ export default function enhance(tagName, opts) {
         this.template = document.createElement('template')
         this.template.innerHTML = this.render({
           html: this.html,
-          state: { attrs: {}, store: {} }
+          state: this.state
         })
         this.template.setAttribute('id', templateName)
       }
@@ -54,11 +60,6 @@ export default function enhance(tagName, opts) {
       else {
         this.replaceChildren(
           this.template.content.cloneNode(true))
-      }
-
-      if (this.api) {
-        const keys = this.keys || []
-        this.api.subscribe(this.process, keys)
       }
 
       this.init && this.init(this)
