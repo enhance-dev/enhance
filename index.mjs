@@ -34,9 +34,8 @@ export default function enhance(tagName, opts) {
 
       this.process = this.process.bind(this)
 
-      if (this.api) {
-        const keys = this.keys || []
-        this.api.subscribe(this.process, keys)
+      if (this.api && this.keys) {
+        this.api.subscribe(this.process, this.keys)
       }
 
       const templateName = `${this.tagName.toLowerCase()}-template`
