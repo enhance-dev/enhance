@@ -10,7 +10,7 @@ You've found the main repo for the [Enhance](https://enhance.dev) HTML framework
 Best way to use Enhance is to read through the docs at [enhance.dev →](https://enhance.dev/docs/)
 
 ### Quick start
-`npm create "@enhance" ./myproject -y`
+`npx "@enhance/create@latest" ./myproject -y`
 
 [(You should probably still read the docs)](https://enhance.dev/docs/)
 
