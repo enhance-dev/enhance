@@ -1,20 +1,18 @@
-# Welcome to Enhance
+# Enhance<sup>beta</sup>
 
-You've found the main repo for the [Enhance](https://enhance.dev) HTML framework.
+#### Enhance is an HTML-first full-stack web framework that gives you everything you need to build standards-based multi-page web apps that perform and scale.
 
-> Enhance is a web standards-based HTML framework. It’s designed to provide a dependable foundation for building lightweight, flexible, and future-proof web applications.
+[Enhance documentation](https://enhance.dev) | [Why Enhance?](https://enhance.dev/docs/learn/why-enhance) | [Enhance discord →](https://enhance.dev/discord)
 
-([Learn more about the Enhance philosophy](https://enhance.dev/docs/learn/why-enhance).)
-
-## Getting started
-Best way to use Enhance is to read through the docs at [enhance.dev →](https://enhance.dev/docs/)
-
-### Quick start
+## Quick start
 `npx "@enhance/create@latest" ./myproject -y`
+or use the [Begin CLI](https://begin.com)
 
-[(You should probably still read the docs)](https://enhance.dev/docs/)
+## Deployment
+[Begin is the best way to deploy Enhance apps](https://begin.com/)
 
+## Modules that make up Enhance<sup>beta</sup>
 
-#### ⭐️ Star this repo
+- [Starter project](https://github.com/enhance-dev/enhance-starter-project) is what is installed by [`@enhance/create`](https://github.com/enhance-dev/create) and the [Begin CLI](begin.com/docs/)
 
-#### 👯‍♂️ [Join the Enhance discord →](https://enhance.dev/discord)
+- [arc-plugin-enhance](https://github.com/enhance-dev/arc-plugin-enhance) is an [Architect](https://arc.codes) plugin that customizes a default Architect project and Enhances it.
