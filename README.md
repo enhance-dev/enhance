@@ -25,5 +25,5 @@ Features it adds to a default Architect project are:
   - [Customization and styleguide generation to `/_styleguide` route with `@enhance/arc-plugin-styles`](https://github.com/enhance-dev/arc-plugin-styles) → [Documented here](https://enhance.dev/docs/learn/concepts/styling/utility-classes)
   - [CSS utility classes with `@enhance/enhance-styles`](https://github.com/enhance-dev/enhance-styles) → [Documented here](https://enhance.dev/docs/learn/concepts/styling/utility-classes)
   - [Dynamic lookup of fingerprinted static assets to `/_public` route with](https://github.com/architect/asap/) → [Documented here](https://enhance.dev/docs/learn/starter-project/public)
-  - [Exposing files and `npm` modules to the browser `/browser` => `/_public/browser` with `@enhance/arc-plugin-rollup](https://github.com/enhance-dev/arc-plugin-rollup)
+  - [Exposing files and `npm` modules to the browser `/browser` => `/_public/browser` with `@enhance/arc-plugin-rollup`](https://github.com/enhance-dev/arc-plugin-rollup) → [Documented here](https://enhance.dev/docs/learn/starter-project/browser)
 
