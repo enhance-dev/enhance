@@ -1,4 +1,6 @@
 
+![enhance-type](https://user-images.githubusercontent.com/76308/223791539-c5d96545-ed00-4cc7-b8f4-3f51900189f8.svg)
+
 # Enhance<sup>beta</sup>
 
 #### Enhance is an HTML-first full-stack web framework that gives you everything you need to build standards-based multi-page web apps that perform and scale.
