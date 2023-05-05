@@ -57,8 +57,10 @@ export default function enhance(tagName, opts) {
           .appendChild(this.template.content.cloneNode(true))
       }
       else {
-        this.replaceChildren(
-          this.template.content.cloneNode(true))
+        if (!this.children.length) {
+          this.replaceChildren(
+            this.template.content.cloneNode(true))
+        }
       }
 
       this.init && this.init(this)
