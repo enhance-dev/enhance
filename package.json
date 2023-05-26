@@ -1,6 +1,6 @@
 {
   "name": "@enhance/enhance-style-transform",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Scope Web Component styles for SSR",
   "main": "src/style-transform.mjs",
   "scripts": {
