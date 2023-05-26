@@ -19,9 +19,6 @@
     "url": "https://github.com/enhance-dev/enhance-style-transform/issues"
   },
   "homepage": "https://github.com/enhance-dev/enhance-style-transform#readme",
-  "dependencies": {
-    "css": "^3.0.0"
-  },
   "devDependencies": {
     "@architect/functions": "^5.0.1",
     "@architect/sandbox": "^5.2.5",
@@ -31,5 +28,8 @@
     "npm-run-all": "^4.1.5",
     "tap-arc": "^0.3.4",
     "tape": "^5.5.3"
+  },
+  "dependencies": {
+    "@enhance/css-parser": "^1.0.0"
   }
 }

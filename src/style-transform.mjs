@@ -1,4 +1,4 @@
-import * as cssParser from 'css'
+import * as cssParser from '@enhance/css-parser'
 
 export default function styleTransform(options) {
   const { attrs = [], raw = '', tagName = '', context='' } = options
@@ -35,9 +35,9 @@ function processBlock({
               /([[a-zA-Z0-9_-]*)(::part)\(\s*(.+)\s*\)/,
               '$1 [part*="$3"][part*="$1"]')
             .replace(':host', '__TAGNAME__')
-          out = /__TAGNAME__/.test(out) ?  out.replace(/(.*)__TAGNAME__(.*)/,`$1${scopeTo}$2`) : `${scopeTo} ${out}` 
+          out = /__TAGNAME__/.test(out) ?  out.replace(/(.*)__TAGNAME__(.*)/,`$1${scopeTo}$2`) : `${scopeTo} ${out}`
 
-          return out 
+          return out
         })
       }
       if (v.type === 'media') {
