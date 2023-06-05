@@ -43,6 +43,9 @@ function processBlock({
       if (v.type === 'media') {
         changeRules(a[i].rules)
       }
+      if (v.type === 'container') {
+        changeRules(a[i].rules)
+      }
     })
   }
   changeRules(parsed.stylesheet?.rules)
