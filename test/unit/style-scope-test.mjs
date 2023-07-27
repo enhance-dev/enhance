@@ -46,6 +46,57 @@ test('default component scoped in ssr context', (t) => {
   t.equal(expected,result,'basic SSR context')
 })
 
+test('@container rules scoped in ssr context', (t) => {
+  t.plan(1)
+
+  const block = `@container (min-inline-size: 48em) { div { background: blue; } }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `@container (min-inline-size: 48em) {
+  my-tag div {
+    background: blue;
+  }
+}` 
+  t.equal(expected,result,'SSR context')
+})
+
+test('@media rules scoped in ssr context', (t) => {
+  t.plan(1)
+
+  const block = `@media (min-inline-size: 48em) { div { background: blue; } }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `@media (min-inline-size: 48em) {
+  my-tag div {
+    background: blue;
+  }
+}` 
+  t.equal(expected,result,'SSR context')
+})
+
+test('@supports rules scoped in ssr context', (t) => {
+  t.plan(1)
+
+  const block = `@supports (display: block) { div { background: blue; } }`
+  const result = transform({
+    tagName: 'my-tag',
+    context: 'markup',
+    raw: block
+  })
+  const expected = `@supports (display: block) {
+  my-tag div {
+    background: blue;
+  }
+}` 
+  t.equal(expected,result,'SSR context')
+})
+
 test('default component scoped in template context', (t) => {
   t.plan(1)
 
