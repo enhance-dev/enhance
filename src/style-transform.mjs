@@ -14,11 +14,18 @@ export default function styleTransform(options) {
   }
 }
 
+// Certain rule blocks require `changeRules` to run recursively on their contents in order to
+// emit rulesets with custom element names prepended to the selector
+const recursiveTypes = [
+  'container',
+  'media',
+  'supports',
+]
+
 function processBlock({
   css = '',
   scopeTo = '',
   disabled = false,
-  instance = ''
 }) {
   if (disabled || !scopeTo) return css
   const parsed = cssParser.parse(css)
@@ -40,10 +47,7 @@ function processBlock({
           return out
         })
       }
-      if (v.type === 'media') {
-        changeRules(a[i].rules)
-      }
-      if (v.type === 'container') {
+      if (recursiveTypes.includes(v.type)) {
         changeRules(a[i].rules)
       }
     })
@@ -51,3 +55,4 @@ function processBlock({
   changeRules(parsed.stylesheet?.rules)
   return cssParser.stringify(parsed)
 }
+
