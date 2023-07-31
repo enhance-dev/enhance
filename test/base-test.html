@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Base test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-component></my-component>
+  <my-component id="has-heading" heading="Yolo!"></my-component>
+
+  <my-api-component></my-api-component>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import EnhanceBase from '../index.mjs'
+    import API from './api.mjs'
+
+    class MyComponent extends EnhanceBase {
+      constructor() {
+        super()
+        this.innerHTML = this.render({
+          html: this.html,
+          state: this.state
+        })
+      }
+
+      render({ html, state }) {
+        const { attrs={} } = state
+        const { heading='default' } = attrs
+        return html`
+          <h1>${heading}</h1>
+        `
+      }
+    }
+    customElements.define('my-component', MyComponent)
+
+    const api = API()
+
+    class MyAPIComponent extends EnhanceBase {
+      constructor() {
+        super(api)
+        this.innerHTML = this.render({
+          html: this.html,
+          state: this.state
+        })
+      }
+
+      render({ html, state }) {
+        const { store={} } = state
+        const { account={} } = store
+        const { name='Tommy' } = account
+
+        return html`
+          <p>${name}</p>
+        `
+      }
+    }
+    customElements.define('my-api-component', MyAPIComponent)
+
+    runTests(()=> {
+
+      describe('Enhance base', ()=> {
+
+        describe('Basic innerHTML component', ()=> {
+          it('should default', ()=> {
+            const testComponent = document.querySelector('my-component')
+            const textContent = testComponent.querySelector('h1').textContent
+            assert.equal(textContent, 'default', 'Should expand template with default heading')
+          })
+
+          it('should customize', ()=> {
+            const testComponent = document.getElementById('has-heading')
+            const textContent = testComponent.querySelector('h1').textContent
+            assert.equal(textContent, 'Yolo!', 'Should expand template with custom heading')
+          })
+        })
+
+        describe('API Component', ()=> {
+          it('should have API data', ()=> {
+            const testComponent = document.querySelector('my-api-component')
+            const textContent = testComponent.querySelector('p').textContent
+            assert.equal(textContent, 'Damiam Groteske', 'Should expand template with store data')
+          })
+        })
+      })
+    })
+  </script>
+</body>
+</html>
