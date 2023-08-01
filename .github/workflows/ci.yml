@@ -10,6 +10,8 @@ defaults:
 jobs:
 
   test:
+    # Setup
+    runs-on: ubuntu-latest
     # Go
     steps:
       - name: Check out repo
