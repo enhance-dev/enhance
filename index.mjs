@@ -1,4 +1,4 @@
-export default class EnhanceBase extends HTMLElement {
+export default class BaseElement extends HTMLElement {
   constructor(api) {
     super()
     this.api = api || {}

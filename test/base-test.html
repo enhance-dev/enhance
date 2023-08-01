@@ -15,10 +15,10 @@
   <script type="module">
     import { runTests } from '@web/test-runner-mocha'
     import { assert } from '@esm-bundle/chai'
-    import EnhanceBase from '../index.mjs'
+    import BaseElement from '../index.mjs'
     import API from './api.mjs'
 
-    class MyComponent extends EnhanceBase {
+    class MyComponent extends BaseElement {
       constructor() {
         super()
         this.innerHTML = this.render({
@@ -39,7 +39,7 @@
 
     const api = API()
 
-    class MyAPIComponent extends EnhanceBase {
+    class MyAPIComponent extends BaseElement {
       constructor() {
         super(api)
         this.innerHTML = this.render({
