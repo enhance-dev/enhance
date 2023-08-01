@@ -6,8 +6,8 @@
   "scripts": {
     "test": "run-s test:setup test:ci",
     "test:setup": "npx playwright install-deps",
-    "test:ci": "web-test-runner \"tests/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
-    "watch": "web-test-runner \"tests/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
+    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
   },
   "author": "@dam",
   "license": "Apache-2.0",
