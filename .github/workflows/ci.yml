@@ -23,6 +23,11 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
 
+      - name: Install
+         run: npm i
+         env:
+           CI: true
+
       - name: Run Tests
         run: npm test
         env:
