@@ -1,6 +1,6 @@
 {
   "name": "@enhance/template-mixin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Template mixin for Enhance base element",
   "main": "index.mjs",
   "scripts": {
