@@ -50,6 +50,9 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
+      - name: Install
+        run: npm ci
+
       - name: Run Tests
         run: npm test
         env:
