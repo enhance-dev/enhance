@@ -22,6 +22,11 @@
       const { attrs={} } = state
       const { heading='default' } = attrs
       return html`
+        <style>
+          :host {
+            color: red;
+          }
+        </style>
         <h1>${heading}</h1>
       `
     }
@@ -64,6 +69,11 @@
           const testComponentThree = document.querySelector('my-element[heading="three"]')
           const textContentThree = testComponentThree.querySelector('h1').textContent
           assert.equal(textContentThree, 'three', 'Should expand template with heading')
+        })
+        it('should remove style blocks', ()=> {
+          const testComponent = document.querySelector('my-element[heading="one"]')
+          const styles = testComponent.querySelector('style')
+          assert.isNull(styles)
         })
       })
     })
