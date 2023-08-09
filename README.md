@@ -47,6 +47,15 @@ class MyComponent extends BaseElement {
   render(args) {
     return MyComponent(args)
   }
+  // Specify what attributes to use for updating the component
+  static get observedAttributes() {
+    return [ 'heading' ]
+  }
+  // adding an attribute changed handler will get automatically called when the attribute changes if it matches the naming convention of ${attributeName}Changed
+  headingChanged(value) {
+    const header = this.querySelector('h1')
+    header.innerHTML = value
+  }
 }
 customElements.define('my-component', MyComponent)
 ```
