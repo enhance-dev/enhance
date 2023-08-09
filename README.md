@@ -36,10 +36,6 @@ import MyElement from '../elements/my-element.mjs'
 class MyElement extends TemplateMixin(BaseElement) {
   constructor() {
     super()
-    // If not expanded by server side render then expand with the template
-    if (!this.children.length) {
-      this.replaceChildren(this.template.content.cloneNode(true))
-    }
   }
 
   render(args) {
@@ -49,5 +45,13 @@ class MyElement extends TemplateMixin(BaseElement) {
 customElements.define('my-element', MyElement)
 ```
 
-> ⚠️  WARN: To reuse the template for multiple instances you will need to implement `observedAttributes` and `atrtributeChangedCallback`
+Running the above code will insert a template element into the body containing the default content of your single file component and an ID of `my-element-template` ready to be updated by the first run of the `attributeChangedCallback` when an instance of the component is inserted into the DOM.
+
+```html
+<template id="my-element-template">
+  <h1>default</h1>
+</template>
+```
+
+> ⚠️  WARN: To reuse the template for multiple instances you will need to implement `observedAttributes` by supplying a `static get observedAttributes` function that returns an array of the attributes you plan to update the component with.
 
