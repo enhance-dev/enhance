@@ -18,6 +18,15 @@ export default class BaseElement extends HTMLElement {
     }
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue) {
+      const fun = `${name}Changed`
+      if (this[fun]) {
+        this[fun](newValue)
+      }
+    }
+  }
+
   attrsToObject(attrs = []) {
     const attrsObj = {}
     for (let d = attrs.length - 1; d >= 0; d--) {
