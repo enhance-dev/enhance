@@ -18,10 +18,6 @@
     class MyElement extends TemplateMixin(BaseElement) {
       constructor() {
         super()
-        // If not expanded by server side render then expand with the template
-        if (!this.children.length) {
-          this.replaceChildren(this.template.content.cloneNode(true))
-        }
       }
 
       render({ html, state }) {
@@ -33,15 +29,13 @@
       }
     }
     customElements.define('my-element', MyElement)
-    // WARN: To resue the template you will need to implement observedAttributes and atrtributeChangedCallback
 
     runTests(()=> {
       describe('TemplateMixin', ()=> {
         it('should use template', ()=> {
-          const testComponent = document.querySelector('my-element')
-          const textContent = testComponent.querySelector('h1').textContent
-          assert.equal(textContent, 'one', 'Should expand template with heading')
-
+          const myTemplate = document.getElementById('my-element-template')
+          const textContent = myTemplate.content.querySelector('h1').textContent
+          assert.equal(textContent, 'default', 'Should expand template with default content')
         })
       })
     })
