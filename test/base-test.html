@@ -9,8 +9,9 @@
 
   <my-component></my-component>
   <my-component id="has-heading" heading="Yolo!"></my-component>
-
   <my-api-component></my-api-component>
+  <my-update-component></my-update-component>
+  <my-update-component heading="something else"></my-update-component>
 
   <script type="module">
     import { runTests } from '@web/test-runner-mocha'
@@ -60,6 +61,34 @@
     }
     customElements.define('my-api-component', MyAPIComponent)
 
+    class MyUpdateComponent extends BaseElement {
+      constructor() {
+        super()
+        this.innerHTML = this.render({
+          html: this.html,
+          state: this.state
+        })
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+
+      headingChanged(value) {
+        const header = this.querySelector('h1')
+        header.innerHTML = value
+      }
+
+      render({ html, state }) {
+        const { attrs={} } = state
+        const { heading='default' } = attrs
+        return html`
+          <h1>${heading}</h1>
+        `
+      }
+    }
+    customElements.define('my-update-component', MyUpdateComponent)
+
     runTests(()=> {
 
       describe('Enhance base', ()=> {
@@ -83,6 +112,21 @@
             const testComponent = document.querySelector('my-api-component')
             const textContent = testComponent.querySelector('p').textContent
             assert.equal(textContent, 'Damiam Groteske', 'Should expand template with store data')
+          })
+        })
+
+        describe('Should call update function', ()=> {
+          it('should update from initial attribute', ()=> {
+            const updateComponent = document.querySelector('my-update-component[heading="something else"]')
+            const textContent = updateComponent.querySelector('h1').textContent
+            assert.equal(textContent, 'something else', 'Should have initial heading attribute')
+          })
+
+          it('should update when attribute set', ()=> {
+            const updateComponent = document.querySelector('my-update-component')
+            updateComponent.setAttribute('heading', 'YOLO')
+            const textContent = updateComponent.querySelector('h1').textContent
+            assert.equal(textContent, 'YOLO', 'Should update text content from setting heading attribute')
           })
         })
       })
