@@ -17,10 +17,10 @@ Reusing a single file component.
 <my-component heading="Heyo!"></my-component>
 ```
 
-`/elements/header.mjs`
+`/elements/my-header.mjs`
 
 ```javascript
-export default function Header({ html, state }) {
+export default function MyHeader({ html, state }) {
   const { attrs={} } = state
   const { heading='default' } = attrs
   return html`
@@ -33,9 +33,9 @@ export default function Header({ html, state }) {
 
 ```javascript
 import BaseElement from '@enhance/base-element'
-import MyComponent from '../elements/my-component.mjs'
+import MyHeaderElement from '../elements/my-header.mjs'
 
-class MyComponent extends BaseElement {
+class MyHeader extends BaseElement {
   constructor() {
     super()
     this.innerHTML = this.render({
@@ -45,7 +45,7 @@ class MyComponent extends BaseElement {
   }
 
   render(args) {
-    return MyComponent(args)
+    return MyHeaderElement(args)
   }
   // Specify what attributes to use for updating the component
   static get observedAttributes() {
