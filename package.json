@@ -1,0 +1,35 @@
+{
+  "name": "@enhance/custom-element",
+  "version": "0.0.0",
+  "description": "Enhance Custom Element base class",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "run-s test:setup test:ci",
+    "test:setup": "npx playwright install-deps",
+    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-custom-element.git"
+  },
+  "author": "Kristofer Joseph <kj@begin.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-custom-element/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-custom-element#readme",
+  "dependencies": {
+    "@enhance/base-element": "^1.1.0",
+    "@enhance/custom-element-mixin": "^1.0.0",
+    "@enhance/template-mixin": "^1.0.0"
+  },
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/test-runner": "^0.17.0",
+    "@web/test-runner-playwright": "^0.10.1",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.37.0"
+  }
+}
