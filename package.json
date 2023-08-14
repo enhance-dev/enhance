@@ -1,6 +1,6 @@
 {
   "name": "@enhance/custom-element",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Enhance Custom Element base class",
   "type": "module",
   "main": "index.mjs",
