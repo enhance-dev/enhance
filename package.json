@@ -1,6 +1,6 @@
 {
   "name": "@enhance/shadow-element",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Enhance Shadow DOM element base class",
   "main": "index.mjs",
   "type": "module",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/enhance-dev/enhance-shadow-element.git"
   },
   "keywords": [],
-    "author": "Kristofer Joseph <kj@begin>",
+  "author": "Kristofer Joseph <kj@begin>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/enhance-dev/enhance-shadow-element/issues"
