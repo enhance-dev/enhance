@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Shadow Element Mixin Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-element heading="one"></my-element>
+  <my-closed-component heading="two"></my-closed-component>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import BaseElement from '@enhance/base-element'
+    import TemplateMixin from '@enhance/template-mixin'
+    import ShadowElementMixin from '../index.mjs'
+
+    function MySingleFileComponent({ html, state  }) {
+      const { attrs={} } = state
+      const { heading='default' } = attrs
+      return html`
+        <style>
+          :host {
+            color: red;
+          }
+        </style>
+        <h1>${heading}</h1>
+      `
+    }
+
+    class MyCustomElement extends ShadowElementMixin(TemplateMixin(BaseElement)) {
+      constructor() {
+      super()
+        this.header = this.shadowRoot.querySelector('h1')
+      }
+
+      render(args) {
+        return MySingleFileComponent(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+
+      headingChanged(value) {
+        this.header.textContent = value
+      }
+    }
+    customElements.define('my-element', MyCustomElement)
+
+    class MyClosedWebComponent extends ShadowElementMixin(TemplateMixin(BaseElement)) {
+      constructor() {
+      super({ mode: 'closed' })
+        this.header = this.shadowRoot.querySelector('h1')
+      }
+
+      render(args) {
+        return MySingleFileComponent(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+
+      headingChanged(value) {
+        this.header.textContent = value
+      }
+    }
+
+    customElements.define('my-closed-component', MyClosedWebComponent)
+
+    runTests(()=> {
+      describe('ShadowElementMixin', ()=> {
+        it('should customize template', ()=> {
+          const testComponent = document.querySelector('my-element[heading="one"]')
+          const textContent = testComponent.shadowRoot.querySelector('h1').textContent
+          assert.equal(textContent, 'one', 'Should expand template with heading')
+        })
+
+        it('should close shadowRoot', ()=> {
+          const testComponent = document.querySelector('my-closed-component[heading="two"]')
+          assert.throws(() => { testComponent.shadowRoot.querySelector('h1').textContent })
+        })
+      })
+    })
+  </script>
+</body>
+</html>
