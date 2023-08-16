@@ -4,6 +4,8 @@ export default class BaseElement extends HTMLElement {
     this.api = api || {}
     this.store = this.api?.store || {}
     this.context = {}
+    this.instanceID = this.getAttribute('id') ||
+      self.crypto.randomUUID()
   }
 
   get state() {
@@ -14,6 +16,7 @@ export default class BaseElement extends HTMLElement {
     return {
       attrs,
       context: this.context,
+      instanceID: this.instanceID,
       store: this.store
     }
   }
