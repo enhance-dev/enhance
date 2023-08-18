@@ -1,8 +1,7 @@
 export default class BaseElement extends HTMLElement {
-  constructor(api) {
+  constructor() {
     super()
-    this.api = api || {}
-    this.store = this.api?.store || {}
+    this.store = {}
     this.context = {}
     this.instanceID = this.getAttribute('id') ||
       self.crypto.randomUUID()

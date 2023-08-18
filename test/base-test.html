@@ -9,7 +9,6 @@
 
   <my-component></my-component>
   <my-component id="has-heading" heading="Yolo!"></my-component>
-  <my-api-component></my-api-component>
   <my-update-component></my-update-component>
   <my-update-component heading="something else"></my-update-component>
 
@@ -17,7 +16,6 @@
     import { runTests } from '@web/test-runner-mocha'
     import { assert } from '@esm-bundle/chai'
     import BaseElement from '../index.mjs'
-    import API from './api.mjs'
 
     class MyComponent extends BaseElement {
       constructor() {
@@ -37,29 +35,6 @@
       }
     }
     customElements.define('my-component', MyComponent)
-
-    const api = API()
-
-    class MyAPIComponent extends BaseElement {
-      constructor() {
-        super(api)
-        this.innerHTML = this.render({
-          html: this.html,
-          state: this.state
-        })
-      }
-
-      render({ html, state }) {
-        const { store={} } = state
-        const { account={} } = store
-        const { name='Tommy' } = account
-
-        return html`
-          <p>${name}</p>
-        `
-      }
-    }
-    customElements.define('my-api-component', MyAPIComponent)
 
     class MyUpdateComponent extends BaseElement {
       constructor() {
@@ -104,14 +79,6 @@
             const testComponent = document.getElementById('has-heading')
             const textContent = testComponent.querySelector('h1').textContent
             assert.equal(textContent, 'Yolo!', 'Should expand template with custom heading')
-          })
-        })
-
-        describe('API Component', ()=> {
-          it('should have API data', ()=> {
-            const testComponent = document.querySelector('my-api-component')
-            const textContent = testComponent.querySelector('p').textContent
-            assert.equal(textContent, 'Damiam Groteske', 'Should expand template with store data')
           })
         })
 
