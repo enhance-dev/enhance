@@ -26,6 +26,8 @@
           }
         </style>
         <h1>${heading}</h1>
+        <p>${heading}</p>
+        <a href="/foo/${heading}"></a>
       `
     }
 
@@ -34,6 +36,8 @@
       constructor() {
         super()
         this.header = this.querySelector('h1')
+        this.paragraph = this.querySelector('p')
+        this.anchor = this.querySelector('a')
       }
 
       render(args) {
@@ -49,13 +53,17 @@
     runTests(()=> {
       describe('MorphdomMixin', ()=> {
         it('should morph component', ()=> {
-          //assert.ok(true)
           const testComponent = document.querySelector('my-header')
-          console.log('COMPONENT: ', testComponent)
           testComponent.setAttribute('heading', 'YOLO')
           const testHeader = testComponent.querySelector('h1')
+          const testParagraph = testComponent.querySelector('p')
+          const testAnchor = testComponent.querySelector('a')
           const textContent = testHeader.textContent
+          const textContentParagraph = testParagraph.textContent
+          const textContentAnchor = testAnchor.getAttribute('href')
           assert.equal(textContent, 'YOLO', 'Should morph heading')
+          assert.equal(textContentParagraph, 'YOLO', 'Should morph heading')
+          assert.equal(textContentAnchor, '/foo/YOLO', 'Should morph heading')
         })
       })
     })
