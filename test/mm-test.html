@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance MorphdomMixin Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-header heading="My list"></my-header>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import CustomElement from '@enhance/custom-element'
+    import MorphdomMixin from '../index.mjs'
+
+    function MyHeader({ html, state  }) {
+      const { attrs={} } = state
+      const { heading='default' } = attrs
+      return html`
+        <style>
+          :host h1 {
+            font-size: 1.3rem;
+            color: indigo;
+          }
+        </style>
+        <h1>${heading}</h1>
+      `
+    }
+
+
+    class MyHeaderElement extends MorphdomMixin(CustomElement) {
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+      }
+
+      render(args) {
+        return MyHeader(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+    }
+    customElements.define('my-header', MyHeaderElement)
+
+    runTests(()=> {
+      describe('MorphdomMixin', ()=> {
+        it('should morph component', ()=> {
+          //assert.ok(true)
+          const testComponent = document.querySelector('my-header')
+          console.log('COMPONENT: ', testComponent)
+          testComponent.setAttribute('heading', 'YOLO')
+          const testHeader = testComponent.querySelector('h1')
+          const textContent = testHeader.textContent
+          assert.equal(textContent, 'YOLO', 'Should morph heading')
+        })
+      })
+    })
+  </script>
+
+</body>
+</html>
