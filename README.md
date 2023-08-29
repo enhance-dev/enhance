@@ -1,5 +1,5 @@
 # enhance-custom-element
-Enhance Custom Element base class.:Ex
+Enhance Custom Element base class.
 
 ## Install
 
