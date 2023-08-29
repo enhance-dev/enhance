@@ -1,6 +1,6 @@
 {
   "name": "@enhance/morphdom-mixin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Enhance mixin to add Morphdom DOM diffing to a Custom Element",
   "main": "index.mjs",
   "scripts": {
