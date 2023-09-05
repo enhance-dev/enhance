@@ -39,11 +39,6 @@ export default class BaseElement extends HTMLElement {
   }
 
   html(strings, ...values) {
-    const collect = []
-    for (let i = 0; i < strings.length - 1; i++) {
-      collect.push(strings[i], values[i])
-    }
-    collect.push(strings[strings.length - 1])
-    return collect.join('')
+    return String.raw({ raw: strings }, ...values)
   }
 }
