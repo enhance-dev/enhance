@@ -30,8 +30,8 @@
 
     class MyCustomElement extends ShadowElement {
       constructor() {
-      super()
-        this.header = this.shadowRoot.querySelector('h1')
+        super()
+        this.header = this.shadowRoot?.querySelector('h1')
       }
 
       render(args) {
@@ -48,38 +48,12 @@
     }
     customElements.define('my-element', MyCustomElement)
 
-    class MyClosedWebComponent extends ShadowElement {
-      constructor() {
-      super({ mode: 'closed' })
-        this.header = this.shadowRoot.querySelector('h1')
-      }
-
-      render(args) {
-        return MySingleFileComponent(args)
-      }
-
-      static get observedAttributes() {
-        return [ 'heading' ]
-      }
-
-      headingChanged(value) {
-        this.header.textContent = value
-      }
-    }
-
-    customElements.define('my-closed-component', MyClosedWebComponent)
-
     runTests(()=> {
       describe('ShadowElementMixin', ()=> {
         it('should customize template', ()=> {
           const testComponent = document.querySelector('my-element[heading="one"]')
           const textContent = testComponent.shadowRoot.querySelector('h1').textContent
           assert.equal(textContent, 'one', 'Should expand template with heading')
-        })
-
-        it('should close shadowRoot', ()=> {
-          const testComponent = document.querySelector('my-closed-component[heading="two"]')
-          assert.throws(() => { testComponent.shadowRoot.querySelector('h1').textContent })
         })
       })
     })

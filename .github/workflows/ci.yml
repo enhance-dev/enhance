@@ -58,6 +58,9 @@ jobs:
         env:
           CI: true
 
+      - name: Dist
+        run: npm run dist
+
       # Publish to npm
       - name: Publish @RC to npm
         if: contains(github.ref, 'RC')
