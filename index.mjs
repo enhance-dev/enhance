@@ -11,8 +11,8 @@ const CustomElementMixin = (superclass) => class extends superclass {
     this.template.content.querySelectorAll('script')
       .forEach((tag) => { this.template.content.removeChild(tag) })
 
-    // If the Custom Element was already expanded by SSR it will have children so do not replaceChildren
-    if (!this.children.length) {
+    // If the Custom Element was already expanded by SSR it will have the "enhanced" attribute so do not replaceChildren
+    if (!this.hasAttribute('enhanced')) {
       // If this Custom Element was added dynamically with JavaScript then use the template contents to expand the element
       this.replaceChildren(this.template.content.cloneNode(true))
     }
