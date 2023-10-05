@@ -8,11 +8,13 @@
 <body>
 
   <my-header heading="My list"></my-header>
+  <my-shady-header heading="My shady list"></my-shady-header>
 
   <script type="module">
     import { runTests } from '@web/test-runner-mocha'
     import { assert } from '@esm-bundle/chai'
     import CustomElement from '@enhance/custom-element'
+    import ShadowElement from '@enhance/shadow-element'
     import MorphdomMixin from '../index.mjs'
 
     function MyHeader({ html, state  }) {
@@ -50,14 +52,46 @@
     }
     customElements.define('my-header', MyHeaderElement)
 
+    class MyShadyHeaderElement extends MorphdomMixin(ShadowElement) {
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+        this.paragraph = this.querySelector('p')
+        this.anchor = this.querySelector('a')
+      }
+
+      render(args) {
+        return MyHeader(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+    }
+
+    customElements.define('my-shady-header', MyShadyHeaderElement)
+
     runTests(()=> {
       describe('MorphdomMixin', ()=> {
-        it('should morph component', ()=> {
+        it('should morph custom element', ()=> {
           const testComponent = document.querySelector('my-header')
           testComponent.setAttribute('heading', 'YOLO')
           const testHeader = testComponent.querySelector('h1')
           const testParagraph = testComponent.querySelector('p')
           const testAnchor = testComponent.querySelector('a')
+          const textContent = testHeader.textContent
+          const textContentParagraph = testParagraph.textContent
+          const textContentAnchor = testAnchor.getAttribute('href')
+          assert.equal(textContent, 'YOLO', 'Should morph heading')
+          assert.equal(textContentParagraph, 'YOLO', 'Should morph heading')
+          assert.equal(textContentAnchor, '/foo/YOLO', 'Should morph heading')
+        })
+        it('should morph shadow element', ()=> {
+          const testComponent = document.querySelector('my-shady-header')
+          testComponent.setAttribute('heading', 'YOLO')
+          const testHeader = testComponent.shadowRoot.querySelector('h1')
+          const testParagraph = testComponent.shadowRoot.querySelector('p')
+          const testAnchor = testComponent.shadowRoot.querySelector('a')
           const textContent = testHeader.textContent
           const textContentParagraph = testParagraph.textContent
           const textContentAnchor = testAnchor.getAttribute('href')

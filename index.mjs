@@ -19,8 +19,11 @@ const MorphdomMixin = (superclass) => class extends superclass {
     })
     const updated = document.createElement('div')
     updated.innerHTML = tmp.trim()
+    const root = this.shadowRoot
+      ? this.shadowRoot
+      : this
     morphdom(
-      this,
+      root,
       updated,
       {
         childrenOnly: true
