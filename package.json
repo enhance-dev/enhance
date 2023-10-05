@@ -2,12 +2,16 @@
   "name": "@enhance/morphdom-mixin",
   "version": "1.0.0",
   "description": "Enhance mixin to add Morphdom DOM diffing to a Custom Element",
+  "type": "module",
+  "module": "/dist/index.js",
   "main": "index.mjs",
   "scripts": {
-    "test": "run-s test:setup test:ci",
+    "test": "run-s test:install test:setup test:ci",
+    "test:install": "npx playwright install",
     "test:setup": "npx playwright install-deps",
     "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
-    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit",
+    "dist": "rollup --config ./rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -21,13 +25,15 @@
   },
   "homepage": "https://github.com/enhance-dev/enhance-morphdom-mixin#readme",
   "devDependencies": {
-    "@enhance/custom-element": "^1.0.1",
+    "@enhance/custom-element": "^1.0.2",
     "@enhance/store": "^1.0.1",
     "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@rollup/plugin-node-resolve": "^15.2.2",
     "@web/test-runner": "^0.17.0",
     "@web/test-runner-playwright": "^0.10.1",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.37.0"
+    "playwright": "^1.37.0",
+    "rollup": "^4.0.0"
   },
   "dependencies": {
     "morphdom": "^2.7.0"
