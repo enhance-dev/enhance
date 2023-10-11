@@ -1,6 +1,6 @@
 {
   "name": "@enhance/shadow-element",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Enhance Shadow DOM element base class",
   "main": "index.mjs",
   "module": "/dist/index.js",
