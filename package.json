@@ -26,7 +26,7 @@
   "dependencies": {
     "@enhance/base-element": "^1.1.0",
     "@enhance/shadow-element-mixin": "^1.0.0",
-    "@enhance/template-mixin": "^1.0.0"
+    "@enhance/template-mixin": "^1.0.1"
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.4-fix.0",
