@@ -32,5 +32,12 @@
     "@web/test-runner-playwright": "^0.9.0",
     "npm-run-all": "^4.1.5",
     "playwright": "^1.29.2"
+  },
+  "dependencies": {
+    "@enhance/base-element": "^1.2.0",
+    "@enhance/custom-element-mixin": "^1.1.1",
+    "@enhance/morphdom-mixin": "^1.1.0",
+    "@enhance/shadow-element-mixin": "^1.0.0",
+    "@enhance/template-mixin": "^1.0.1"
   }
 }

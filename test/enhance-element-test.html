@@ -89,10 +89,12 @@
           assert.equal(button.textContent, 'working')
         })
 
+
         it('should update from api', ()=> {
 
           enhance('my-list', {
             api,
+            store: api.store,
             keys: [ 'things' ],
             init() {
               this.check = this.check.bind(this)
@@ -104,7 +106,7 @@
               assert.equal(items.length, 3)
             },
             render({ html, state }) {
-              const { store } = state
+              const { store={} } = state
               const { things=[] } = store
               const items = things
                 .map((t, i)=> `<li id=${i++}>${t}</li>`)
@@ -117,9 +119,10 @@
             }
           })
 
-          const myList = document.querySelector('my-list')
         })
+
       })
+
     })
 
   </script>
