@@ -4,6 +4,11 @@ HTML first base element class to help cut down on web component boilerplate.
 ## Install
 `npm i @enhance/element`
 
+**unpkg**
+`import enhance from 'https://unpkg.com/@enhance/element?module=true'`
+
+[Codepen](https://codepen.io/dam/pen/WNLWbZG)
+
 ## Usage
 
 ```html
@@ -80,5 +85,21 @@ The `disconnected` function is called when your component is removed to the page
 **shadow**:Enum
 
 The `shadow` property can be set to either `open` or `closed` and effects how the components shadow root is "encapsulated".
+
+```javascript
+ enhance('my-shady',{
+    attrs: [ 'message' ],
+    shadow: 'open',
+    render({ html, state }) {
+      const { attrs={} } = state
+      const { message='So shady' } = attrs
+      return html`
+      <p>
+        ${message}
+      </p>
+      `
+    }
+  })
+```
 
 

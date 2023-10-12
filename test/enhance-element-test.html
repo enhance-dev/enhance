@@ -13,6 +13,7 @@
   <my-button id="moveme" label="Click me"></my-button>
   <my-api-button></my-api-button>
   <my-list></my-list>
+  <my-shady message="I'm Shady"></my-shady>
 
 
   <script type="module">
@@ -123,6 +124,26 @@
 
       })
 
+      it('should use shadow DOM', ()=> {
+          enhance('my-shady',{
+            attrs: [ 'message' ],
+            shadow: 'open',
+            render({ html, state }) {
+              const { attrs={} } = state
+              const { message='So shady' } = attrs
+              return html`
+              <p>
+                ${message}
+              </p>
+              `
+            }
+          })
+
+          const myShady = document.querySelector('my-shady')
+          assert.equal(myShady.shadowRoot.querySelector('p').textContent.trim(), "I'm Shady")
+
+          assert.isOk(myShady.shadowRoot)
+      })
     })
 
   </script>

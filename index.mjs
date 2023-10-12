@@ -5,8 +5,7 @@ import CustomElementMixin from '@enhance/custom-element-mixin'
 import BaseElement from '@enhance/base-element'
 
 export default function enhance(tagName, opts) {
-  const shadow = opts.shadow ? opts.shadow : false
-  const shadowRootMode = opts.shadowRootMode || 'open'
+  const shadow = opts.shadow
   const _observedAttributes = opts.observedAttributes ||
     opts.attrs
   delete opts.observedAttributes
@@ -65,11 +64,13 @@ export default function enhance(tagName, opts) {
     }
   }
 
-  const elementMixin = shadow ? ShadowElementMixin : CustomElementMixin
+  const elementMixin = (shadow === 'open' || shadow === 'closed')
+    ? ShadowElementMixin
+    : CustomElementMixin
 
   class EnhanceElement extends MorphdomMixin(elementMixin(TemplateMixin(Base))) {
     constructor() {
-      super({ mode: shadowRootMode })
+      super({ mode: shadow })
       if (this.api && this.keys) {
         this.api.subscribe(this.process, this.keys)
       }
