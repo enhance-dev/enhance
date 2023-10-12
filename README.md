@@ -5,6 +5,10 @@ Enhance Shadow DOM element base class
 
 `npm i @enhance/shadow-element`
 
+**unpkg**
+
+`import ShadowElement from 'https://unpkg.com/@enhance/shadow-element?module=true`
+
 ## Usage
 
 `/pages/index.html`
