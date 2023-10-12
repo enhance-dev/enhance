@@ -1,8 +1,8 @@
 import morphdom from "morphdom"
 
 const MorphdomMixin = (superclass) => class extends superclass {
-  constructor() {
-    super()
+  constructor(args) {
+    super(args)
     this.process = this.process.bind(this)
   }
 
