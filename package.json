@@ -11,8 +11,8 @@
   "scripts": {
     "test": "run-s test:setup test:ci",
     "test:setup": "npx playwright install",
-    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox",
-    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox",
+    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit",
     "dist": "rollup --config ./rollup.config.js"
   },
   "repository": {
