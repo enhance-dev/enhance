@@ -1,7 +1,12 @@
-import morph from './morph.mjs'
+import MorphdomMixin from '@enhance/morphdom-mixin'
+import TemplateMixin from '@enhance/template-mixin'
+import ShadowElementMixin from '@enhance/shadow-element-mixin'
+import CustomElementMixin from '@enhance/custom-element-mixin'
+import BaseElement from '@enhance/base-element'
 
 export default function enhance(tagName, opts) {
-  const shadow = opts.shadow
+  const shadow = opts.shadow ? opts.shadow : false
+  const shadowRootMode = opts.shadowRootMode || 'open'
   const _observedAttributes = opts.observedAttributes ||
     opts.attrs
   delete opts.observedAttributes
@@ -19,7 +24,7 @@ export default function enhance(tagName, opts) {
   delete opts.disconnectedCallback
   delete opts.disconnected
 
-  class EnhanceElement extends HTMLElement {
+  class Base extends BaseElement {
     constructor() {
       super()
       Object.keys(opts)
@@ -31,39 +36,6 @@ export default function enhance(tagName, opts) {
             writable: true
           })
         )
-
-      this.process = this.process.bind(this)
-
-      if (this.api && this.keys) {
-        this.api.subscribe(this.process, this.keys)
-      }
-
-      const templateName = `${this.tagName.toLowerCase()}-template`
-      const template = document.getElementById(templateName)
-      if (template) {
-        this.template = template
-      }
-      else {
-        this.template = document.createElement('template')
-        this.template.innerHTML = this.render({
-          html: this.html,
-          state: this.state
-        })
-        this.template.setAttribute('id', templateName)
-      }
-
-      if (shadow === 'open' || shadow === 'closed') {
-        this.attachShadow({ mode: shadow })
-          .appendChild(this.template.content.cloneNode(true))
-      }
-      else {
-        if (!this.children.length) {
-          this.replaceChildren(
-            this.template.content.cloneNode(true))
-        }
-      }
-
-      this.init && this.init(this)
     }
 
     static get observedAttributes() {
@@ -91,63 +63,25 @@ export default function enhance(tagName, opts) {
         _disconnectedCallback.call(this)
       }
     }
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (oldValue !== newValue) {
-        this.process()
+  const elementMixin = shadow ? ShadowElementMixin : CustomElementMixin
+
+  class EnhanceElement extends MorphdomMixin(elementMixin(TemplateMixin(Base))) {
+    constructor() {
+      super({ mode: shadowRootMode })
+      if (this.api && this.keys) {
+        this.api.subscribe(this.process, this.keys)
       }
-    }
-
-    html(strings, ...values) {
-      const collect = []
-      for (let i = 0; i < strings.length - 1; i++) {
-        collect.push(strings[i], values[i])
-      }
-      collect.push(strings[strings.length - 1])
-      return collect.join('')
-    }
-
-    get state() {
-      const attrs = this.attributes.length
-        ? this.attrsToObject(this.attributes)
-        : {}
-      const store = this.api?.store || {}
-
-      return {
-        attrs,
-        store
-      }
-    }
-
-    attrsToObject(attrs = []) {
-      const attrsObj = {}
-      for (let d = attrs.length - 1; d >= 0; d--) {
-        let attr = attrs[d]
-        attrsObj[attr.nodeName] = attr.nodeValue
-      }
-      return attrsObj
-    }
-
-    process() {
-      const tmp = this.render({
-        html: this.html,
-        state: this.state
-      })
-      const updated = document.createElement('div')
-      updated.innerHTML = tmp.trim()
-      morph(
-        this,
-        updated,
-        {
-          childrenOnly: true
-        }
-      )
+      this.init && this.init(this)
     }
   }
 
-  customElements.define(
-    tagName,
-    EnhanceElement
-  )
+ if (!customElements.get('tagName')) {
+    customElements.define(
+      tagName,
+      EnhanceElement
+    )
+ }
 }
 

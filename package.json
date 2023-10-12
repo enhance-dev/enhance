@@ -3,15 +3,18 @@
   "version": "1.1.2",
   "description": "Enhance element base class",
   "main": "index.mjs",
+  "module": "/dist/index.js",
   "type": "module",
   "engine": {
     "node": ">=14.0"
   },
   "scripts": {
-    "test": "run-s test:setup test:ci",
-    "test:setup": "npx playwright install-deps",
-    "test:ci": "web-test-runner \"test/**/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
-    "watch": "web-test-runner \"test/**/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
+    "test": "run-s test:setup test:deps test:ci",
+    "test:setup": "npx playwright install",
+    "test:deps": "npx playwright install-deps",
+    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit",
+    "dist": "rollup --config ./rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,15 @@
     "@web/test-runner-mocha": "^0.7.5",
     "@web/test-runner-playwright": "^0.9.0",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.29.2"
+    "playwright": "^1.38.1",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "rollup": "^3.29.4"
+  },
+  "dependencies": {
+    "@enhance/base-element": "^1.2.0",
+    "@enhance/custom-element-mixin": "^1.1.1",
+    "@enhance/morphdom-mixin": "^1.1.0",
+    "@enhance/shadow-element-mixin": "^1.0.0",
+    "@enhance/template-mixin": "^1.0.1"
   }
 }
