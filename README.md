@@ -5,6 +5,9 @@ Enhance Custom Element base class.
 
 `npm i @enhance/custom-element`
 
+**unpkg**
+`import CustomElement from 'https://unpkg.com/@enhance/custom-element?module=true'`
+
 ## Usage
 
 `/pages/index.html`
