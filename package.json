@@ -1,0 +1,18 @@
+{
+  "name": "@enhance/event-handler-mixin",
+  "version": "1.0.0",
+  "description": "Event handler mixin",
+  "main": "index.mjs",
+  "module": "index.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-event-handler-mixin.git"
+  },
+  "keywords": [],
+  "author": "Kristofer Joseph <kj@begin.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-event-handler-mixin/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-event-handler-mixin#readme"
+}
