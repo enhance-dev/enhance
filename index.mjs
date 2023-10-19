@@ -49,16 +49,6 @@ export default function enhance(tagName, opts) {
     }
 
     connectedCallback() {
-      const htmlElementPrototype = Object.getOwnPropertyNames(HTMLElement.prototype)
-      const attrs = this?.state?.attrs
-      Object.keys(attrs)
-        .map(attr => {
-          if (attr.startsWith('on') &&
-            htmlElementPrototype.indexOf(attr)) {
-            const event = attr.substring(2, attr.length)
-            this.addEventListener(event, this[event])
-          }
-        })
       if (this.isConnected && typeof _connectedCallback === 'function') {
         _connectedCallback.call(this)
       }
