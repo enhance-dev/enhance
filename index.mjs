@@ -3,6 +3,7 @@ import TemplateMixin from '@enhance/template-mixin'
 import ShadowElementMixin from '@enhance/shadow-element-mixin'
 import CustomElementMixin from '@enhance/custom-element-mixin'
 import BaseElement from '@enhance/base-element'
+import EventHandlerMixin from '@enhance/event-handler-mixin'
 
 export default function enhance(tagName, opts) {
   const shadow = opts.shadow
@@ -68,7 +69,7 @@ export default function enhance(tagName, opts) {
     ? ShadowElementMixin
     : CustomElementMixin
 
-  class EnhanceElement extends MorphdomMixin(elementMixin(TemplateMixin(Base))) {
+  class EnhanceElement extends MorphdomMixin(EventHandlerMixin(elementMixin(TemplateMixin(Base)))) {
     constructor() {
       super({ mode: shadow })
       if (this.api && this.keys) {
