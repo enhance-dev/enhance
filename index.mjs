@@ -79,7 +79,7 @@ export default function enhance(tagName, opts) {
     }
   }
 
- if (!customElements.get('tagName')) {
+ if (!customElements.get(tagName)) {
     customElements.define(
       tagName,
       EnhanceElement
