@@ -31,7 +31,7 @@ class MyComponent extends EventHandlerMixin(CustomElement) {
       <button>Click me!</button>
     `
   }
-})
+}
 ```
 
 ## Advanced Usage
@@ -64,7 +64,7 @@ class MyComponent extends EventHandlerMixin(CustomElement) {
       <button>Click me!</button>
     `
   }
-})
+}
 ```
 ### Considerations
 This is a convenience method that does not offer all of the abilities of adding an event listener yourself.
