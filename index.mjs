@@ -9,6 +9,7 @@ export default function enhance(tagName, opts) {
   const shadow = opts.shadow
   const _observedAttributes = opts.observedAttributes ||
     opts.attrs
+  const _formAssociated = opts.formAssociated || false
   delete opts.observedAttributes
   delete opts.attrs
   const _adoptedCallback = opts.adoptedCallback ||
@@ -40,6 +41,10 @@ export default function enhance(tagName, opts) {
 
     static get observedAttributes() {
       return _observedAttributes
+    }
+
+    static get formAssociated() {
+      return _formAssociated
     }
 
     adoptedCallback() {
