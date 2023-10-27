@@ -49,13 +49,13 @@ export default function enhance(tagName, opts) {
 
     adoptedCallback() {
       if (typeof _adoptedCallback === 'function') {
-        _adoptedCallback.call(this)
+        _adoptedCallback.call(this, this)
       }
     }
 
     connectedCallback() {
       if (this.isConnected && typeof _connectedCallback === 'function') {
-        _connectedCallback.call(this)
+        _connectedCallback.call(this, this)
       }
     }
 
@@ -65,7 +65,7 @@ export default function enhance(tagName, opts) {
       }
 
       if (typeof _disconnectedCallback === 'function') {
-        _disconnectedCallback.call(this)
+        _disconnectedCallback.call(this, this)
       }
     }
   }
