@@ -26,10 +26,8 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Run Tests
+      - name: Test
         run: npm test
-        env:
-          CI: true
 
   # ----- Only git tag testing + package publishing beyond this point ----- #
 
@@ -53,10 +51,8 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Run Tests
+      - name: Test
         run: npm test
-        env:
-          CI: true
 
       # Publish to npm
       - name: Publish @RC to npm

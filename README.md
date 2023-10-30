@@ -1,7 +1,7 @@
 # custom-element-mixin
 Custom Element mixin that enables the reuse of single file components
 
-## Install 
+## Install
 
 `npm i @enhance/custom-element-mixin`
 

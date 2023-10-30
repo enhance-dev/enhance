@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Custom Element Mixin Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-element></my-element>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import BaseElement from '@enhance/base-element'
+    import TemplateMixin from '@enhance/template-mixin'
+    import CustomElementMixin from '../index.mjs'
+
+    function MySingleFileComponent({ html, state  }) {
+      return html`
+        <style>
+          :host {
+            color: red;
+          }
+        </style>
+        <slot></slot>
+        <slot name=one>Default One</slot>
+        <slot as=div name=two>Default Two</slot>
+      `
+    }
+
+    class MyCustomElement extends CustomElementMixin(TemplateMixin(BaseElement)) {
+      static registeredName = 'my-element'
+      constructor() {
+        super()
+      }
+
+      render(args) {
+        return MySingleFileComponent(args)
+      }
+
+    }
+    customElements.define('my-element', MyCustomElement)
+
+    runTests(()=> {
+      describe('CustomElementMixin Slots', ()=> {
+        it('default named content should show', ()=> {
+          const testComponent = document.querySelector('my-element')
+          const textContent = testComponent.querySelector('span').textContent
+          assert.equal(textContent, 'Default One', 'Should expand default slots')
+        })
+        it('slot as attribute should render', ()=> {
+          const testComponent = document.querySelector('my-element')
+          const textContent = testComponent.querySelector('div').textContent
+          assert.equal(textContent, 'Default Two', 'Should use as attribute')
+        })
+        it('empty unnamed slot should disappear', ()=> {
+          const testComponent = document.querySelector('my-element')
+          const unnamedSlot = testComponent.querySelector('slot')
+          assert.isNull(unnamedSlot)
+        })
+      })
+    })
+  </script>
+</body>
+</html>

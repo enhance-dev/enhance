@@ -5,7 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "test": "run-s test:setup test:ci",
-    "test:setup": "npx playwright install-deps",
+    "test:setup": "npx playwright install --with-deps",
     "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
     "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
   },
@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/enhance-dev/enhance-custom-element-mixin#readme",
   "devDependencies": {
-    "@enhance/base-element": "^1.0.1",
-    "@enhance/template-mixin": "^1.0.0",
+    "@enhance/base-element": "^1.2.0",
+    "@enhance/template-mixin": "^1.0.1",
     "@esm-bundle/chai": "^4.3.4-fix.0",
     "@web/test-runner": "^0.17.0",
     "@web/test-runner-playwright": "^0.10.1",

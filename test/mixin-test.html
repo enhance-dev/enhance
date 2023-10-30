@@ -34,6 +34,7 @@
     }
 
     class MyCustomElement extends CustomElementMixin(TemplateMixin(BaseElement)) {
+      static registeredName = 'my-element'
       constructor() {
         super()
         this.header = this.querySelector('h1')
