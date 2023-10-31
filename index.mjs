@@ -10,20 +10,18 @@ const EventHandlerMixin = (superclass) => class extends superclass {
     Object.keys(attrs)
       .map(event => {
         if (htmlElementPrototype.indexOf(`on${event}`) !== -1) {
-          /*
-           * Elements we want to add event listeners to can either live in light DOM or shadow DOM.
-           * Slotted content and Custom Element content will live in light DOM so we use querySelector by default.
-           * If we don't find them there then we look in the shadowRoot using shadowRoot.querySelector
-           * otherwise we add the listener to the component instead of a nested element.
-           * Problem with adding a listener to the component is that there could be issues adding more than one event listener ( think blur, click and submit for instance )
-          */
-          const target = this.querySelector(attrs[event]) ||
-            this.shadowRoot.querySelector(attrs[event]) ||
-            this
+          const target = attrs[event]
+            ? this.querySelector(attrs[event]) ||
+              this.shadowRoot.querySelector(attrs[event]) ||
+              this
+            : this
 
-          if (target) {
-            target.addEventListener(event, this[event])
+          if (target && this[event]) {
+            target.addEventListener(event, this[event].bind(this))
             eventsToRemove.push({ target, event: this[event] })
+          }
+          else {
+            throw Error(`Unable to add event listener. Double check ${event}="${attrs[event]}".`)
           }
         }
       })
