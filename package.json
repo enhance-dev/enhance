@@ -1,6 +1,6 @@
 {
   "name": "@enhance/event-handler-mixin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Event handler mixin",
   "main": "index.mjs",
   "module": "index.mjs",
