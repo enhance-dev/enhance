@@ -41,7 +41,7 @@
   "dependencies": {
     "@enhance/base-element": "^1.2.0",
     "@enhance/custom-element-mixin": "^1.1.1",
-    "@enhance/event-handler-mixin": "^1.0.0",
+    "@enhance/event-handler-mixin": "^1.0.2",
     "@enhance/morphdom-mixin": "^1.1.1",
     "@enhance/shadow-element-mixin": "^1.0.0",
     "@enhance/template-mixin": "^1.0.1"
