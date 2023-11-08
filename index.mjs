@@ -89,7 +89,9 @@ function notify() {
           }
         }, {})
       : { ..._state }
-    fn(payload)
+    if (Object.keys(payload).length)  {
+      fn(payload)
+    }
   })
   dirtyProps.length = 0
 }
