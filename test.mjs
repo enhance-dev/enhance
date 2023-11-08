@@ -83,6 +83,27 @@ test('should unsubscribe from state updates', t => {
   t.end()
 })
 
+test('should not be called when not listening to specific key state updates', t => {
+  t.plan(1)
+  const store = Store({
+    one: 1,
+    two: 2
+  })
+  const listenerOne= data => {
+    t.pass('I should be called')
+  }
+  const listenerTwo = data => {
+    t.fail('I should not be called')
+  }
+  store.subscribe(listenerTwo, ['two'])
+  store.subscribe(listenerOne, ['one'])
+  store.one = 2
+
+  t.teardown(() => {
+    store.unsubscribe(listenerOne)
+    store.unsubscribe(listenerTwo)
+  })
+})
 
 test('should be able to subscribe private function for updates', t => {
   class MyPrivates {
