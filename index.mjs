@@ -80,7 +80,12 @@ export default function enhance(tagName, opts) {
       super({ mode: shadow })
       if (this.api && this.keys) {
         this.api.subscribe(this.process, this.keys)
+        this.store = this.api.store
       }
+      else if (this.store && this.keys) {
+        this.store.subscribe(this.process, this.keys)
+      }
+
       this.init && this.init(this)
     }
   }
