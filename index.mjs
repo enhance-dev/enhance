@@ -12,7 +12,7 @@ const CustomElementMixin = (superclass) => class extends superclass {
       this.template.content.querySelectorAll('style')
         .forEach((tag) => { this.template.content.removeChild(tag) })
     } else {
-      let tagName = customElements.getName ? customElements.getName(this.constructor) : this.toKebabCase(this.constructor.name)
+      let tagName = this.tagName
       this.template.content.querySelectorAll('style')
         .forEach((tag) => {
           let sheet = this.styleTransform({ tag, tagName, scope: tag.getAttribute('scope') })
