@@ -1,6 +1,9 @@
 if (typeof process !== 'undefined') {
   global.HTMLElement = function() { return {} }
-  global.customElements = { define: function() { } }
+  global.customElements = {
+    define: function() { },
+    get: function() { }
+  }
   global.Worker = function() { return { postMessage: function() { } } }
 }
 
