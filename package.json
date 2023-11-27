@@ -1,6 +1,6 @@
 {
   "name": "@enhance/shadow-element-mixin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enhance Shadow DOM Element mixin",
   "main": "index.mjs",
   "scripts": {
