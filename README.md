@@ -1,7 +1,7 @@
 
 ![enhance-type](https://user-images.githubusercontent.com/76308/223791539-c5d96545-ed00-4cc7-b8f4-3f51900189f8.svg)
 
-# Enhance<sup>beta</sup>
+# Enhance
 
 #### Enhance is an HTML-first full-stack web framework that gives you everything you need to build standards-based multi-page web apps that perform and scale.
 
@@ -14,7 +14,7 @@ or use the [Begin CLI](https://begin.com)
 ## Deployment
 [Begin is the best way to deploy Enhance apps](https://begin.com/)
 
-## Modules that make up Enhance<sup>beta</sup>
+## Modules that make up Enhance
 
 - [Starter project](https://github.com/enhance-dev/enhance-starter-project) is what is installed by [`@enhance/create`](https://github.com/enhance-dev/create) and the [Begin CLI](begin.com/docs/)
 
