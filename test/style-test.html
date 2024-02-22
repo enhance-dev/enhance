@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Custom Element Mixin Style Transform Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <style id="global-in-ssr-context" scope="global">
+    div { background:blue; }
+  </style>
+  <style id="global-in-template-context" scope="global">
+    div { background:blue; }
+  </style>
+  <style id="default-component-scoped-in-ssr-context">
+    div { background:blue; }
+  </style>
+  <style id="container-rules-scoped-in-ssr-context">
+    @container (min-inline-size: 48em) { div { background: blue; } }
+  </style>
+  <style id="media-rules-scoped-in-ssr-context">
+    @media (min-inline-size: 48em) { div { background: blue; } }
+  </style>
+  <style id="supports-rules-scoped-in-ssr-context">
+    @supports (display: block) { div { background: blue; } }
+  </style>
+  <style id="default-component-scoped-in-template-context">
+    div { background:blue; }
+  </style>
+  <style id="template-context-with-shadow-selectors-should-not-change">
+    :host { background:blue; }
+    .container > ::slotted(*) {
+      display: block;
+    }
+    .container > ::slotted(*[slot="title"]) {
+      display: block;
+    }
+    .foo { display: block; }
+    another-tag::part(thing) { display: block; }
+  </style>
+  <style id="ssr-context-with-special-selectors">
+    :host { background:blue; }
+    .container > ::slotted(*) {
+      display: block;
+    }
+    .container > ::slotted(*[slot="title"]) {
+      display: block;
+    }
+    .foo { display: block; }
+    another-tag::part(thing) { display: block; }
+  </style>
+  <style id="host-pseudo-element">
+    :host div { background: blue; }
+  </style>
+  <style id="host-function-form">
+    :host(.something) div { background:blue; }
+  </style>
+  <style id="host-context-function-form">
+    :host-context(.something) div { background:blue; }
+  </style>
+
+  <my-element heading="one">
+    has children but no enhanced attribute
+  </my-element>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import BaseElement from '@enhance/base-element'
+    import TemplateMixin from '@enhance/template-mixin'
+    import CustomElementMixin from '../index.mjs'
+
+    const tagName = 'my-element'
+
+    function MySingleFileComponent({ html, state  }) {
+      const { attrs={} } = state
+      const { heading='default' } = attrs
+      return html`
+        <style>
+          :host {
+            color: red;
+          }
+        </style>
+        <h1>${heading}</h1>
+      `
+    }
+
+    class MyCustomElement extends CustomElementMixin(TemplateMixin(BaseElement)) {
+      static registeredName = 'my-element'
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+      }
+
+      render(args) {
+        return MySingleFileComponent(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+
+      attributeChangedCallback(name, old, value) {
+        if (old !== value) {
+          if (name === 'heading') {
+            this.header.textContent = value
+          }
+        }
+      }
+    }
+    customElements.define('my-element', MyCustomElement)
+
+    runTests(()=> {
+      const ce = new MyCustomElement()
+      describe('StyleTransform', ()=> {
+        it('global in ssr context', ()=> {
+          const tag = document.querySelector('#global-in-ssr-context')
+          const sheet = ce.styleTransform({tag, tagName, scope: 'global'})
+          assert.equal(sheet.cssRules[0].cssText, 'div { background: blue; }', 'it works')
+        })
+        it('global in template context', ()=> {
+          const tag = document.querySelector('#global-in-template-context')
+          const sheet = ce.styleTransform({tag, tagName, scope: 'global'})
+          assert.equal(sheet.cssRules[0].cssText, 'div { background: blue; }', 'it works')
+        })
+        it('default component scoped in ssr context', ()=> {
+          const tag = document.querySelector('#default-component-scoped-in-ssr-context')
+          const sheet = ce.styleTransform({tag, tagName})
+          assert.equal(sheet.cssRules[0].cssText, 'my-element div { background: blue; }', 'it works')
+        })
+        it('container-rules-scoped-in-ssr-context', ()=> {
+          const tag = document.querySelector('#container-rules-scoped-in-ssr-context')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `@container (min-inline-size: 48em) {
+  my-element div { background: blue; }
+}`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        it('media-rules-scoped-in-ssr-context', ()=> {
+          const tag = document.querySelector('#media-rules-scoped-in-ssr-context')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `@media (min-inline-size: 48em) {
+  my-element div { background: blue; }
+}`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        it('supports-rules-scoped-in-ssr-context', ()=> {
+          const tag = document.querySelector('#supports-rules-scoped-in-ssr-context')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `@supports (display: block) {
+  my-element div { background: blue; }
+}`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        xit('default-component-scoped-in-template-context', ()=> {
+          const tag = document.querySelector('#default-component-scoped-in-template-context')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `div { background:blue; }`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        xit('template-context-with-shadow-selectors-should-not-change', ()=> {
+          const tag = document.querySelector('#template-context-with-shadow-selectors-should-not-change')
+          const sheet = ce.styleTransform({tag, tagName})
+          assert.equal(sheet.cssRules[0].cssText, ':host { background:blue; }', 'it works')
+          assert.equal(sheet.cssRules[1].cssText, '.container > ::slotted(*) { display: block; }', 'it works')
+          assert.equal(sheet.cssRules[2].cssText, '.container > ::slotted(*[slot="title"]) { display: block; }', 'it works')
+          assert.equal(sheet.cssRules[3].cssText, '.foo { display: block; }', 'it works')
+          assert.equal(sheet.cssRules[4].cssText, 'another-tag::part(thing) { display: block; }', 'it works')
+        })
+        it('ssr-context-with-special-selectors', ()=> {
+          const tag = document.querySelector('#ssr-context-with-special-selectors')
+          const sheet = ce.styleTransform({tag, tagName})
+          assert.equal(sheet.cssRules[0].cssText, `my-element { background: blue; }`, 'it works')
+          assert.equal(sheet.cssRules[1].cssText, `my-element .container > * { display: block; }`, 'it works')
+          // CSSStyleSheet turns '*[slot="title"]' to '[slot="title"]'
+          assert.equal(sheet.cssRules[2].cssText, `my-element .container > [slot="title"] { display: block; }`, 'it works')
+          assert.equal(sheet.cssRules[3].cssText, `my-element .foo { display: block; }`, 'it works')
+          assert.equal(sheet.cssRules[4].cssText, `my-element another-tag [part*="thing"][part*="another-tag"] { display: block; }`, 'it works')
+        })
+        it('host-pseudo-element', ()=> {
+          const tag = document.querySelector('#host-pseudo-element')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `my-element div { background: blue; }`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        it('host-function-form', ()=> {
+          const tag = document.querySelector('#host-function-form')
+          const sheet = ce.styleTransform({tag, tagName})
+          const expected = `my-element.something div { background: blue; }`
+          assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+        })
+        it('host-context-function-form', ()=> {
+          if (navigator.userAgent.includes('Chrome')) {
+            const tag = document.querySelector('#host-context-function-form')
+            const sheet = ce.styleTransform({tag, tagName})
+            const expected = `.something my-element div { background: blue; }`
+            assert.equal(sheet.cssRules[0].cssText, expected, 'it works')
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

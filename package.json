@@ -1,0 +1,32 @@
+{
+  "name": "@enhance/custom-element-mixin",
+  "version": "1.2.1",
+  "description": "Custom Element mixin that enables the reuse of single file components",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "run-s test:setup test:ci",
+    "test:setup": "npx playwright install --with-deps",
+    "test:ci": "web-test-runner \"test/*-test.html\" --node-resolve --playwright --browsers chromium firefox webkit",
+    "watch": "web-test-runner \"test/*-test.html\" --node-resolve --watch --playwright --browsers chromium firefox webkit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-custom-element-mixin.git"
+  },
+  "keywords": [],
+  "author": "@dam",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-custom-element-mixin/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-custom-element-mixin#readme",
+  "devDependencies": {
+    "@enhance/base-element": "^1.2.0",
+    "@enhance/template-mixin": "^1.0.1",
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/test-runner": "^0.17.0",
+    "@web/test-runner-playwright": "^0.10.1",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.36.2"
+  }
+}
