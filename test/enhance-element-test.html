@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-init></my-init>
+  <my-connect></my-connect>
+  <my-click></my-click>
+  <my-button id="moveme" label="Click me"></my-button>
+  <my-api-button></my-api-button>
+  <my-list></my-list>
+  <my-shady message="I'm Shady"></my-shady>
+
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha';
+    import { assert } from '@esm-bundle/chai';
+    import enhance from '../index.mjs'
+    import Store from '@enhance/store'
+    const store = Store()
+    function API() {
+      return {
+        list: () => {
+          store.things = ['one', 'two', 'three']
+        },
+        subscribe: store.subscribe,
+        unsubscribe: store.unsubscribe,
+        store
+      }
+    }
+    const api = API()
+
+    runTests(()=> {
+
+      describe('Enhance element', ()=> {
+
+        it('should init', ()=> {
+
+          enhance('my-init', {
+            render() {
+              return `<p>Init</p>`
+            },
+            init
+          })
+
+          function init(el) {
+            assert.isOk(el)
+          }
+        })
+
+        it('should connect', ()=> {
+          enhance('my-connect', {
+            render() {
+              return `<p>Connect</p>`
+            },
+            connected
+          })
+
+          function connected(el) {
+            assert.isOk(el)
+          }
+
+        })
+
+        it('should update button text when label changed', ()=> {
+
+          enhance('my-button',{
+            attrs: [ 'label' ],
+            render({ html, state }) {
+              const { attrs={} } = state
+              const { label='Nope' } = attrs
+              return html`
+              <pre>
+                ${JSON.stringify(state)}
+              </pre>
+              <button>${label}</button>
+              `
+            }
+          })
+
+          const myButton = document.querySelector('my-button')
+          myButton.setAttribute('label', 'Yolo')
+          const button = myButton.querySelector('button')
+          assert.equal(button.textContent, 'Yolo')
+          myButton.setAttribute('label', 'working')
+          assert.equal(button.textContent, 'working')
+        })
+
+
+        it('should update from api', ()=> {
+
+          enhance('my-list', {
+            api,
+            store: api.store,
+            keys: [ 'things' ],
+            init() {
+              this.check = this.check.bind(this)
+              this.api.subscribe(this.check, [ 'things'])
+              this.api.list()
+            },
+            check(stuff) {
+              const items = this.querySelectorAll('li')
+              assert.equal(items.length, 3)
+            },
+            render({ html, state }) {
+              const { store={} } = state
+              const { things=[] } = store
+              const items = things
+                .map((t, i)=> `<li id=${i++}>${t}</li>`)
+                .join('\n')
+              return html`
+              <ul>
+                ${items}
+              </ul>
+              `
+            }
+          })
+
+        })
+
+      })
+
+      it('should use shadow DOM', ()=> {
+          enhance('my-shady',{
+            attrs: [ 'message' ],
+            shadow: 'open',
+            render({ html, state }) {
+              const { attrs={} } = state
+              const { message='So shady' } = attrs
+              return html`
+              <p>
+                ${message}
+              </p>
+              `
+            }
+          })
+
+          const myShady = document.querySelector('my-shady')
+          assert.equal(myShady.shadowRoot.querySelector('p').textContent.trim(), "I'm Shady")
+
+          assert.isOk(myShady.shadowRoot)
+      })
+    })
+  </script>
+</body>
+</html>
