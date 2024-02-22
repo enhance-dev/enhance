@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance MorphdomMixin Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-header heading="My list"></my-header>
+  <my-shady-header heading="My shady list"></my-shady-header>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import CustomElement from '@enhance/custom-element'
+    import ShadowElement from '@enhance/shadow-element'
+    import MorphdomMixin from '../index.mjs'
+
+    function MyHeader({ html, state  }) {
+      const { attrs={} } = state
+      const { heading='default' } = attrs
+      return html`
+        <style>
+          :host h1 {
+            font-size: 1.3rem;
+            color: indigo;
+          }
+        </style>
+        <h1>${heading}</h1>
+        <p>${heading}</p>
+        <a href="/foo/${heading}"></a>
+      `
+    }
+
+
+    class MyHeaderElement extends MorphdomMixin(CustomElement) {
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+        this.paragraph = this.querySelector('p')
+        this.anchor = this.querySelector('a')
+      }
+
+      render(args) {
+        return MyHeader(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+    }
+    customElements.define('my-header', MyHeaderElement)
+
+    class MyShadyHeaderElement extends MorphdomMixin(ShadowElement) {
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+        this.paragraph = this.querySelector('p')
+        this.anchor = this.querySelector('a')
+      }
+
+      render(args) {
+        return MyHeader(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+    }
+
+    customElements.define('my-shady-header', MyShadyHeaderElement)
+
+    runTests(()=> {
+      describe('MorphdomMixin', ()=> {
+        it('should morph custom element', ()=> {
+          const testComponent = document.querySelector('my-header')
+          testComponent.setAttribute('heading', 'YOLO')
+          const testHeader = testComponent.querySelector('h1')
+          const testParagraph = testComponent.querySelector('p')
+          const testAnchor = testComponent.querySelector('a')
+          const textContent = testHeader.textContent
+          const textContentParagraph = testParagraph.textContent
+          const textContentAnchor = testAnchor.getAttribute('href')
+          assert.equal(textContent, 'YOLO', 'Should morph heading')
+          assert.equal(textContentParagraph, 'YOLO', 'Should morph heading')
+          assert.equal(textContentAnchor, '/foo/YOLO', 'Should morph heading')
+        })
+        it('should morph shadow element', ()=> {
+          const testComponent = document.querySelector('my-shady-header')
+          testComponent.setAttribute('heading', 'YOLO')
+          const testHeader = testComponent.shadowRoot.querySelector('h1')
+          const testParagraph = testComponent.shadowRoot.querySelector('p')
+          const testAnchor = testComponent.shadowRoot.querySelector('a')
+          const textContent = testHeader.textContent
+          const textContentParagraph = testParagraph.textContent
+          const textContentAnchor = testAnchor.getAttribute('href')
+          assert.equal(textContent, 'YOLO', 'Should morph heading')
+          assert.equal(textContentParagraph, 'YOLO', 'Should morph heading')
+          assert.equal(textContentAnchor, '/foo/YOLO', 'Should morph heading')
+        })
+      })
+    })
+  </script>
+
+</body>
+</html>
