@@ -4,17 +4,21 @@ const TemplateMixin = (superclass) => class extends superclass {
     if (!this.render || !this.html) {
       throw new Error('TemplateMixin must extend Enhance BaseElement')
     }
-    const templateName = `${this.tagName.toLowerCase()}-template`
-    const template = document.getElementById(templateName)
-    const html = this.html
-    const state = {}
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.templateName = `${this.tagName.toLowerCase()}-template`
+    const template = document.getElementById(this.templateName)
     if (template) {
       this.template = template
     }
     else {
+      const html = this.html
+      const state = {}
       this.template = document.createElement('template')
       this.template.innerHTML = this.render({ html, state })
-      this.template.setAttribute('id', templateName)
+      this.template.setAttribute('id', this.templateName)
       document.body.appendChild(this.template)
     }
   }
