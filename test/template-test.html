@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Base test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-element heading="one"></my-element>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import BaseElement from '@enhance/base-element'
+    import TemplateMixin from '../index.mjs'
+
+    class MyElement extends TemplateMixin(BaseElement) {
+      constructor() {
+        super()
+      }
+
+      render({ html, state }) {
+        const { attrs={} } = state
+        const { heading='default' } = attrs
+        return html`
+          <h1>${heading}</h1>
+        `
+      }
+    }
+    customElements.define('my-element', MyElement)
+
+    runTests(()=> {
+      describe('TemplateMixin', ()=> {
+        it('should use template', ()=> {
+          const myTemplate = document.getElementById('my-element-template')
+          const textContent = myTemplate.content.querySelector('h1').textContent
+          assert.equal(textContent, 'default', 'Should expand template with default content')
+        })
+      })
+    })
+  </script>
+</body>
+</html>
