@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhance Custom Element Test</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+  <my-header heading="one"></my-header>
+  <my-header heading="two"></my-header>
+  <my-header heading="three"></my-header>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha'
+    import { assert } from '@esm-bundle/chai'
+    import CustomElement from '../index.mjs'
+
+    function MyHeaderElement({ html, state  }) {
+      const { attrs={} } = state
+      const { heading='default' } = attrs
+      return html`
+        <style>
+          :host {
+            color: red;
+          }
+        </style>
+        <h1>${heading}</h1>
+      `
+    }
+
+    class MyHeader extends CustomElement {
+      constructor() {
+        super()
+        this.header = this.querySelector('h1')
+      }
+
+      render(args) {
+        return MyHeaderElement(args)
+      }
+
+      static get observedAttributes() {
+        return [ 'heading' ]
+      }
+
+      headingChanged(value) {
+        this.header.textContent = value
+      }
+    }
+    customElements.define('my-header', MyHeader)
+
+    runTests(()=> {
+      describe('CustomElement', ()=> {
+        it('should customize template', ()=> {
+          const testComponent = document.querySelector('my-header[heading="one"]')
+          const textContent = testComponent.querySelector('h1').textContent
+          assert.equal(textContent, 'one', 'Should expand template with heading')
+
+          const testComponentTwo = document.querySelector('my-header[heading="two"]')
+          const textContentTwo = testComponentTwo.querySelector('h1').textContent
+          assert.equal(textContentTwo, 'two', 'Should expand template with heading')
+
+          const testComponentThree = document.querySelector('my-header[heading="three"]')
+          const textContentThree = testComponentThree.querySelector('h1').textContent
+          assert.equal(textContentThree, 'three', 'Should expand template with heading')
+        })
+        it('should remove style blocks', ()=> {
+          const testComponent = document.querySelector('my-header[heading="one"]')
+          const styles = testComponent.querySelector('style')
+          assert.isNull(styles)
+        })
+      })
+    })
+  </script>
+</body>
+</html>
