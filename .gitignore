@@ -1,0 +1,13 @@
+.arc-env
+.env
+.DS_Store
+.vscode
+node_modules
+sam.json
+sam.yaml
+preferences.arc
+prefs.arc
+static.json
+dist/*
+package-lock.json
+playwright-report

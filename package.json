@@ -1,0 +1,35 @@
+{
+  "name": "@enhance/enhance-style-transform",
+  "version": "0.1.2",
+  "description": "Scope Web Component styles for SSR",
+  "main": "src/style-transform.mjs",
+  "scripts": {
+    "test:unit": "tape 'test/unit/**/*-test.mjs' --verbose | tap-arc ",
+    "start": "cd test/mocks && sandbox",
+    "playwright": "playwright test",
+    "test": "npm run test:unit "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enhance-dev/enhance-style-transform.git"
+  },
+  "author": "Ryan Bethel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enhance-dev/enhance-style-transform/issues"
+  },
+  "homepage": "https://github.com/enhance-dev/enhance-style-transform#readme",
+  "devDependencies": {
+    "@architect/functions": "^5.0.1",
+    "@architect/sandbox": "^5.2.5",
+    "@enhance/ssr": "^2.3.5",
+    "@playwright/test": "^1.24.1",
+    "nanoid": "^3.3.1",
+    "npm-run-all": "^4.1.5",
+    "tap-arc": "^0.3.4",
+    "tape": "^5.5.3"
+  },
+  "dependencies": {
+    "@enhance/css-parser": "^1.0.0"
+  }
+}
