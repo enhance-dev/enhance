@@ -8,7 +8,7 @@
 [Enhance documentation](https://enhance.dev) | [Why Enhance?](https://enhance.dev/docs/learn/why-enhance) | [Enhance discord →](https://enhance.dev/discord)
 
 ## Quick start
-`npx "@enhance/create@latest" ./myproject -y`
+`npx "@enhance/create@latest" new ./myproject -y`
 or use the [Begin CLI](https://begin.com)
 
 ## Deployment
